@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Andrija\\Microservices.CookUp\\Gateway.CookUp\\Gateway.CookUp.csproj": {}
+    "C:\\Users\\Andrija\\microservices.cookup\\Gateway.CookUp\\Gateway.CookUp.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Andrija\\Microservices.CookUp\\Gateway.CookUp\\Gateway.CookUp.csproj": {
+    "C:\\Users\\Andrija\\microservices.cookup\\Gateway.CookUp\\Gateway.CookUp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Andrija\\Microservices.CookUp\\Gateway.CookUp\\Gateway.CookUp.csproj",
+        "projectUniqueName": "C:\\Users\\Andrija\\microservices.cookup\\Gateway.CookUp\\Gateway.CookUp.csproj",
         "projectName": "Gateway.CookUp",
-        "projectPath": "C:\\Users\\Andrija\\Microservices.CookUp\\Gateway.CookUp\\Gateway.CookUp.csproj",
+        "projectPath": "C:\\Users\\Andrija\\microservices.cookup\\Gateway.CookUp\\Gateway.CookUp.csproj",
         "packagesPath": "C:\\Users\\Andrija\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Andrija\\Microservices.CookUp\\Gateway.CookUp\\obj\\",
+        "outputPath": "C:\\Users\\Andrija\\microservices.cookup\\Gateway.CookUp\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Andrija\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -39,6 +39,12 @@
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
+          "dependencies": {
+            "Ocelot": {
+              "target": "Package",
+              "version": "[22.0.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
