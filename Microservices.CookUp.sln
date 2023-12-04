@@ -31,7 +31,6 @@ Global
 		{C09EAA88-26FD-4192-BC38-28D5225B5C0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C09EAA88-26FD-4192-BC38-28D5225B5C0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C09EAA88-26FD-4192-BC38-28D5225B5C0E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C09EAA88-26FD-4192-BC38-28D5225B5C0E}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
