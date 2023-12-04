@@ -6,7 +6,7 @@ using Users.Microservice.Queries.User.GetUserData;
 
 namespace Users.Microservice.Controllers;
 
-[Route("api/users")]
+[Route("api/[controller]")]
 // [Authorize]
 [ApiController]
 public class UsersController : ControllerBase
@@ -33,7 +33,7 @@ public class UsersController : ControllerBase
     /// </summary>
     /// <param name="id"></param>
     /// <returns>User data.</returns>
-    [HttpGet("[action]/{id}")]
+    [HttpGet("{id}")]
     public async Task<ActionResult<UserDataDto>> GetUserData(long id)
     {
         return await _mediator.Send(new GetUserDataQuery { Id = id });
@@ -43,7 +43,7 @@ public class UsersController : ControllerBase
     /// Method for retrieving users data.
     /// </summary>
     /// <returns>Users data as a list.</returns>
-    [HttpGet("[action]")]
+    [HttpGet]
     public async Task<ActionResult<List<UserDataDto>>> GetUsersData()
     {
         return await _mediator.Send(new GetUsersDataQuery());

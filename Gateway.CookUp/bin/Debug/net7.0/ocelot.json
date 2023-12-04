@@ -4,19 +4,6 @@
   },
   "Routes": [
     {
-      "DownstreamPathTemplate": "/api/auth",
-      "DownstreamScheme": "https",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 7001
-        }
-      ],
-      "DownstreamHttpMethod": [ "POST", "PUT", "GET" ],
-      "UpstreamPathTemplate": "/gateway/auth",
-      "UpstreamHttpMethod": [ "POST", "PUT", "GET" ]
-    },
-    {
       "DownstreamPathTemplate": "/api/users",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -25,9 +12,9 @@
           "Port": 7001
         }
       ],
-      "DownstreamHttpMethod": [ "POST", "PUT", "GET" ],
+      "DownstreamHttpMethod": [ "GET" ],
       "UpstreamPathTemplate": "/gateway/users",
-      "UpstreamHttpMethod": [ "POST", "PUT", "GET" ]
+      "UpstreamHttpMethod": [ "GET" ]
     }
   ]
 }
