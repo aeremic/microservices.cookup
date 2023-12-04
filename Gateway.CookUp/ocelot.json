@@ -1,16 +1,16 @@
 ﻿{
   "Routes": [
     {
-      "DownstreamPathTemplate": "/api/users",
-      "DownstreamScheme": "https",
+      "DownstreamPathTemplate": "/api/auth",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
           "Port": 5001
         }
       ],
-      "UpstreamPathTemplate": "/gateway/users",
-      "UpstreamHttpMethod": [ "POST", "PUT", "GET", "DELETE" ]
+      "UpstreamPathTemplate": "/gateway/auth",
+      "UpstreamHttpMethod": [ "POST" ]
     }
   ]
 }
