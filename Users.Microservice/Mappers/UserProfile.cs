@@ -10,6 +10,5 @@ public class UserProfile : Profile
     public UserProfile()
     {
         CreateMap<User, UserDataDto>();
-        CreateMap<User, UsersDataDto>();
     }
 }

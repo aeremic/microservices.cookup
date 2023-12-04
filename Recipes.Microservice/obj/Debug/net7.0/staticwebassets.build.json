@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "lqCZvjNob8+tTGW9e6hLfFxi+p5U/M1l3YRtcpSGmoU=",
+  "Source": "Recipes.Microservice",
+  "BasePath": "_content/Recipes.Microservice",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

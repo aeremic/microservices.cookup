@@ -2,10 +2,11 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Users.Microservice.Infrastructure;
+using Users.Microservice.Queries.User.GetUserData;
 
 namespace Users.Microservice.Queries.User.GetAllUsersData;
 
-public class GetUsersDataQueryHandler : IRequestHandler<GetUsersDataQuery, List<UsersDataDto>>
+public class GetUsersDataQueryHandler : IRequestHandler<GetUsersDataQuery, List<UserDataDto>>
 {
     #region Properties
 
@@ -26,11 +27,11 @@ public class GetUsersDataQueryHandler : IRequestHandler<GetUsersDataQuery, List<
 
     #region Methods
 
-    public async Task<List<UsersDataDto>> Handle(GetUsersDataQuery request, CancellationToken cancellationToken)
+    public async Task<List<UserDataDto>> Handle(GetUsersDataQuery request, CancellationToken cancellationToken)
     {
         var users = await _repository.Users.ToListAsync(cancellationToken);
 
-        return _mapper.Map<List<Users.Microservice.Models.User>, List<UsersDataDto>>(users);
+        return _mapper.Map<List<Users.Microservice.Models.User>, List<UserDataDto>>(users);
     }
 
     #endregion

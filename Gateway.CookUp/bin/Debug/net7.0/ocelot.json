@@ -1,8 +1,11 @@
 ﻿{
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:5000"
+  },
   "Routes": [
     {
       "DownstreamPathTemplate": "/api/auth",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
@@ -10,7 +13,7 @@
         }
       ],
       "UpstreamPathTemplate": "/gateway/auth",
-      "UpstreamHttpMethod": [ "POST" ]
+      "UpstreamHttpMethod": [ "POST", "PUT", "GET" ]
     }
   ]
 }
