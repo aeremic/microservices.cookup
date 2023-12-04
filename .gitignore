@@ -4,8 +4,6 @@ Gateway.CookUp/appsettings.Development.json
 Gateway.CookUp/appsettings.json
 Recipes.Microservice/appsettings.Development.json
 Recipes.Microservice/appsettings.json
-Gateway.CookUp/bin
-Gateway.CookUp/obj
-Recipes.Microservice/obj
-Users.Microservice/bin
-Users.Microservice/obj
+Gateway.CookUp/obj/rider.project.restore.info
+Recipes.Microservice/obj/rider.project.restore.info
+Users.Microservice/obj/rider.project.restore.info
