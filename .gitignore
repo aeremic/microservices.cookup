@@ -2,3 +2,5 @@
 Users.Microservice/appsettings.json
 Gateway.CookUp/appsettings.Development.json
 Gateway.CookUp/appsettings.json
+Recipes.Microservice/appsettings.Development.json
+Recipes.Microservice/appsettings.json
