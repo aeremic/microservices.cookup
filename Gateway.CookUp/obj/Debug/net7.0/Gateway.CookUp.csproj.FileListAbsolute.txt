@@ -1,6 +1,5 @@
 C:\Users\Andrija\Microservices.CookUp\Gateway.CookUp\bin\Debug\net7.0\appsettings.Development.json
 C:\Users\Andrija\Microservices.CookUp\Gateway.CookUp\bin\Debug\net7.0\appsettings.json
-C:\Users\Andrija\Microservices.CookUp\Gateway.CookUp\bin\Debug\net7.0\ocelot.json
 C:\Users\Andrija\Microservices.CookUp\Gateway.CookUp\bin\Debug\net7.0\Gateway.CookUp.exe
 C:\Users\Andrija\Microservices.CookUp\Gateway.CookUp\bin\Debug\net7.0\Gateway.CookUp.deps.json
 C:\Users\Andrija\Microservices.CookUp\Gateway.CookUp\bin\Debug\net7.0\Gateway.CookUp.runtimeconfig.json
@@ -40,3 +39,4 @@ C:\Users\Andrija\microservices.cookup\Gateway.CookUp\bin\Debug\net7.0\Microsoft.
 C:\Users\Andrija\microservices.cookup\Gateway.CookUp\bin\Debug\net7.0\Swashbuckle.AspNetCore.Swagger.dll
 C:\Users\Andrija\microservices.cookup\Gateway.CookUp\bin\Debug\net7.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Users\Andrija\microservices.cookup\Gateway.CookUp\bin\Debug\net7.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\Andrija\microservices.cookup\Gateway.CookUp\bin\Debug\net7.0\ocelot.json
