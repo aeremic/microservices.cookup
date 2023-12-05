@@ -10,3 +10,6 @@ Users.Microservice/obj/rider.project.restore.info
 Gateway.CookUp/obj/rider.project.model.nuget.info
 Recipes.Microservice/obj/rider.project.model.nuget.info
 Users.Microservice/obj/rider.project.model.nuget.info
+Gateway.CookUp/bin/Debug
+Users.Microservice/bin/Debug
+Users.Microservice/obj/Debug

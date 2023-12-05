@@ -4,7 +4,7 @@ using Users.Microservice.Commands.Auth.ExternalLogin;
 
 namespace Users.Microservice.Controllers;
 
-[Route("api/auth")]
+[Route("api/[controller]")]
 [ApiController]
 public class AuthController : ControllerBase
 {
@@ -30,7 +30,7 @@ public class AuthController : ControllerBase
     /// </summary>
     /// <param name="externalLoginCommand"></param>
     /// <returns>Data transfer object containing access token.</returns>
-    [HttpPost]
+    [HttpPost("[action]")]
     public async Task<ActionResult<ExternalLoginDto>> ExternalLogin([FromBody] ExternalLoginCommand? externalLoginCommand)
     {
         if (externalLoginCommand == null)
