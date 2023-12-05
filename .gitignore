@@ -7,3 +7,6 @@ Recipes.Microservice/appsettings.json
 Gateway.CookUp/obj/rider.project.restore.info
 Recipes.Microservice/obj/rider.project.restore.info
 Users.Microservice/obj/rider.project.restore.info
+Gateway.CookUp/obj/rider.project.model.nuget.info
+Recipes.Microservice/obj/rider.project.model.nuget.info
+Users.Microservice/obj/rider.project.model.nuget.info
