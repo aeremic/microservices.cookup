@@ -8,7 +8,7 @@ public class Recipe
     public string? Instructions { get; set; }
     public DateTime? CreatedOn { get; set; }
     public long? CreatedBy { get; set; }
-    public bool IsUserCreated { get; set; } = false;
+    public bool IsUserCreated { get; set; }
     
     public virtual ICollection<Ingredient>? Ingredients { get; set; }
 }

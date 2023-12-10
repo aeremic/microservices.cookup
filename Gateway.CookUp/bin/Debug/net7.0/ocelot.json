@@ -38,6 +38,18 @@
       ],
       "UpstreamPathTemplate": "/gateway/users/{id}",
       "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/ingredients",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/ingredients",
+      "UpstreamHttpMethod": [ "GET" ]
     }
   ]
 }

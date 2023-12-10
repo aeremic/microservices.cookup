@@ -23,9 +23,6 @@
 
     <ItemGroup>
       <Folder Include="Commands\" />
-      <Folder Include="Common\Models\" />
-      <Folder Include="Controllers\" />
-      <Folder Include="Queries\" />
       <Folder Include="Services\" />
     </ItemGroup>
 
