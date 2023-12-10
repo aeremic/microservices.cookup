@@ -18,3 +18,4 @@ Users.Microservice/obj/Debug
 *.dll
 *.pdb
 *.cache
+*.user
