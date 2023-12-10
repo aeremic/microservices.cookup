@@ -1,19 +1,7 @@
-﻿namespace Users.Microservice.Common;
+﻿namespace Recipes.Microservice.Common;
 
 public static class Constants
 {
-    public enum Role : int
-    {
-        Administrator = 0,
-        Regular
-    }
-
-    public static class AuthConfigurationSectionKeys
-    {
-        public static readonly string AuthenticationGoogle = "Authentication:Google";
-        public static readonly string ClientId = "ClientId";
-    }
-    
     public static class JwtConfigurationSectionKeys
     {
         public static readonly string Jwt = "Jwt";

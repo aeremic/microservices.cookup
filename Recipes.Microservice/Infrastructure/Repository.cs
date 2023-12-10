@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Users.Microservice.Domains;
+using Recipes.Microservice.Domains;
 
-namespace Users.Microservice.Infrastructure;
+namespace Recipes.Microservice.Infrastructure;
 
 public class Repository : DbContext
 {
@@ -15,8 +15,10 @@ public class Repository : DbContext
 
     #region Entities
 
-    public required DbSet<User> Users { get; set; }
-
+    public required DbSet<Recipe> Recipes { get; set; }
+    
+    public required DbSet<Ingredient> Ingredients { get; set; }
+    
     #endregion
 
     #region Configuration
