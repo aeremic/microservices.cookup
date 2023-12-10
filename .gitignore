@@ -13,3 +13,5 @@ Users.Microservice/obj/rider.project.model.nuget.info
 Gateway.CookUp/bin/Debug
 Users.Microservice/bin/Debug
 Users.Microservice/obj/Debug
+Users.Microservice/bin
+Users.Microservice/obj/Debug
