@@ -21,3 +21,4 @@ Users.Microservice/obj/Debug
 *.user
 Recipes.Microservice/bin
 Recipes.Microservice/obj
+Gateway.CookUp/bin
