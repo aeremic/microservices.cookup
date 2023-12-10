@@ -15,3 +15,6 @@ Users.Microservice/bin/Debug
 Users.Microservice/obj/Debug
 Users.Microservice/bin
 Users.Microservice/obj/Debug
+*.dll
+*.pdb
+*.cache
