@@ -2,8 +2,8 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Users.Microservice.Common;
+using Users.Microservice.Domains;
 using Users.Microservice.Infrastructure;
-using Users.Microservice.Models;
 using Users.Microservice.Services;
 
 namespace Users.Microservice.Commands.Auth.ExternalLogin;

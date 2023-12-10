@@ -1,4 +1,4 @@
-﻿namespace Users.Microservice.Models;
+﻿namespace Users.Microservice.Domains;
 
 public class User
 {

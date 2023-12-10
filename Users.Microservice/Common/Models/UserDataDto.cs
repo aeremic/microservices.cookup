@@ -1,4 +1,4 @@
-﻿namespace Users.Microservice.Queries.User.GetUserData;
+﻿namespace Users.Microservice.Common.Models;
 
 public class UserDataDto
 {

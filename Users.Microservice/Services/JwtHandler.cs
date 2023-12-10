@@ -3,7 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using Users.Microservice.Common;
-using Users.Microservice.Models;
+using Users.Microservice.Domains;
 
 namespace Users.Microservice.Services;
 

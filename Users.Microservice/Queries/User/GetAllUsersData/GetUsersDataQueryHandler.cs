@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Users.Microservice.Common.Models;
 using Users.Microservice.Infrastructure;
 using Users.Microservice.Queries.User.GetUserData;
 
@@ -31,7 +32,7 @@ public class GetUsersDataQueryHandler : IRequestHandler<GetUsersDataQuery, List<
     {
         var users = await _repository.Users.ToListAsync(cancellationToken);
 
-        return _mapper.Map<List<Users.Microservice.Models.User>, List<UserDataDto>>(users);
+        return _mapper.Map<List<Domains.User>, List<UserDataDto>>(users);
     }
 
     #endregion

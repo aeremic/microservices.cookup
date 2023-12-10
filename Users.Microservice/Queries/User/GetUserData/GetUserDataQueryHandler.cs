@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Users.Microservice.Common.Models;
 using Users.Microservice.Infrastructure;
 
 namespace Users.Microservice.Queries.User.GetUserData;

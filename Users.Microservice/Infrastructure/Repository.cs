@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Users.Microservice.Models;
+using Users.Microservice.Domains;
 
 namespace Users.Microservice.Infrastructure;
 

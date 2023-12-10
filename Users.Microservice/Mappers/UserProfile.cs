@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using Users.Microservice.Models;
+using Users.Microservice.Common.Models;
+using Users.Microservice.Domains;
 using Users.Microservice.Queries.User.GetAllUsersData;
 using Users.Microservice.Queries.User.GetUserData;
 
