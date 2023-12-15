@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Users.Microservice.Queries.User.GetUserData;
+using Users.Microservice.Common.Models;
 
 namespace Users.Microservice.Queries.User.GetAllUsersData;
 

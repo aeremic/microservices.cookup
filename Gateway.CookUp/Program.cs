@@ -15,6 +15,17 @@ builder.Configuration
     .AddJsonFile("ocelot.json", optional: false, reloadOnChange: true);
 builder.Services.AddOcelot(builder.Configuration);
 
+var allowedOrigin = builder.Configuration.GetSection("AllowedOrigins").Get<string[]>();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("appCors", policy =>
+    {
+        policy.WithOrigins(allowedOrigin ?? throw new InvalidOperationException())
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
 var temp = builder.Configuration.GetSection("Routes");
 
 var app = builder.Build();
@@ -26,7 +37,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+app.UseRouting();
+
+app.UseCors("appCors");
 
 app.UseAuthorization();
 

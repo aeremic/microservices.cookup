@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using NLog;
+using Users.Microservice.Common.Models;
 using Users.Microservice.Infrastructure;
-using Users.Microservice.Queries.User.GetUserData;
 
 namespace Users.Microservice.Queries.User.GetAllUsersData;
 
@@ -12,6 +13,7 @@ public class GetUsersDataQueryHandler : IRequestHandler<GetUsersDataQuery, List<
 
     private readonly Repository _repository;
     private readonly IMapper _mapper;
+    private readonly Logger _logger;
 
     #endregion
 
@@ -21,6 +23,7 @@ public class GetUsersDataQueryHandler : IRequestHandler<GetUsersDataQuery, List<
     {
         _repository = repository;
         _mapper = mapper;
+        _logger = LogManager.GetCurrentClassLogger();
     }
 
     #endregion
@@ -29,9 +32,19 @@ public class GetUsersDataQueryHandler : IRequestHandler<GetUsersDataQuery, List<
 
     public async Task<List<UserDataDto>> Handle(GetUsersDataQuery request, CancellationToken cancellationToken)
     {
-        var users = await _repository.Users.ToListAsync(cancellationToken);
+        var result = new List<UserDataDto>();
+        try
+        {
+            var users = await _repository.Users.ToListAsync(cancellationToken);
 
-        return _mapper.Map<List<Users.Microservice.Models.User>, List<UserDataDto>>(users);
+            result = _mapper.Map<List<UserDataDto>>(users);
+        }
+        catch (Exception ex)
+        {
+            _logger.Error(ex);
+        }
+
+        return result;
     }
 
     #endregion
