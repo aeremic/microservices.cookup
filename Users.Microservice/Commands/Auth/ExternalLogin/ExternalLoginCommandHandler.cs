@@ -1,6 +1,7 @@
 ﻿using Google.Apis.Auth;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using NLog;
 using Users.Microservice.Common;
 using Users.Microservice.Domains;
 using Users.Microservice.Infrastructure;
@@ -15,6 +16,7 @@ public class ExternalLoginCommandHandler : IRequestHandler<ExternalLoginCommand,
     private readonly IConfigurationSection _googleAuthConfigurationSection;
     private readonly Repository _repository;
     private readonly JwtHandler _jwtHandler;
+    private readonly Logger _logger;
 
     #endregion
 
@@ -25,6 +27,7 @@ public class ExternalLoginCommandHandler : IRequestHandler<ExternalLoginCommand,
         _googleAuthConfigurationSection = configuration.GetSection(Constants.AuthConfigurationSectionKeys.AuthenticationGoogle);
         _repository = repository;
         _jwtHandler = jwtHandler;
+        _logger = LogManager.GetCurrentClassLogger();
     }
 
     #endregion
@@ -85,9 +88,9 @@ public class ExternalLoginCommandHandler : IRequestHandler<ExternalLoginCommand,
                 result.IsSuccess = true;
             }
         }
-        catch
+        catch (Exception ex)
         {
-            // TODO: Log exception
+            _logger.Error(ex);
         }
 
         return result;

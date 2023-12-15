@@ -23,3 +23,5 @@ Recipes.Microservice/bin
 Recipes.Microservice/obj
 Gateway.CookUp/bin
 Users.Microservice/bin
+*.info
+Users.Microservice/obj
