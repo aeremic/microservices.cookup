@@ -50,6 +50,18 @@
       ],
       "UpstreamPathTemplate": "/gateway/ingredients",
       "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/recipes/getrecommendedrecipes",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/recipes/getrecommendedrecipes",
+      "UpstreamHttpMethod": [ "POST" ]
     }
   ]
 }
