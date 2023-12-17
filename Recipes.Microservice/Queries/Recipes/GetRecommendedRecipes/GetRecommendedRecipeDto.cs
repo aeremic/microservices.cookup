@@ -1,4 +1,7 @@
-﻿namespace Recipes.Microservice.Queries.Recipes.GetRecommendedRecipes;
+﻿using System.Runtime.Serialization;
+using Recipes.Microservice.Common.Models;
+
+namespace Recipes.Microservice.Queries.Recipes.GetRecommendedRecipes;
 
 public class GetRecommendedRecipeDto
 {
@@ -6,4 +9,6 @@ public class GetRecommendedRecipeDto
     public string? Name { get; set; }
     public string? Description { get; set; }
     public string? ThumbnailPath { get; set; }
+
+    public List<IngredientDto>? Ingredients { get; set; }
 }

@@ -21,6 +21,7 @@ public class GetRecommendedRecipesQueryHandler : IRequestHandler<GetRecommendedR
 
     public GetRecommendedRecipesQueryHandler(Repository repository, IMapper mapper)
     {
+        
         _repository = repository;
         _mapper = mapper;
         _logger = LogManager.GetCurrentClassLogger();
@@ -38,6 +39,7 @@ public class GetRecommendedRecipesQueryHandler : IRequestHandler<GetRecommendedR
             if (request.PickedIngredients.Any())
             {
                 var recipes = await _repository.Recipes
+                    .Include(recipe => recipe.Ingredients)
                     .Where(recipe =>
                         recipe.Ingredients!.Any(ingredient => request.PickedIngredients.Contains(ingredient.Id)))
                     .ToListAsync(cancellationToken);
