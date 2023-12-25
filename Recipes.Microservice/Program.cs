@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using NLog;
 using NLog.Web;
 using Recipes.Microservice.Common;
+using Recipes.Microservice.Common.Services;
 using Recipes.Microservice.Infrastructure;
 
 var logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
@@ -39,6 +40,8 @@ try
         };
     });
 
+    builder.Services.AddScoped<FileService>();
+    
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
