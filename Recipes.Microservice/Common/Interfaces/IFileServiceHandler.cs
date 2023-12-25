@@ -1,4 +1,4 @@
-﻿namespace Recipes.Microservice.Common;
+﻿namespace Recipes.Microservice.Common.Interfaces;
 
 public interface IFileServiceHandler
 {

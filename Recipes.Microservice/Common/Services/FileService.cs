@@ -1,4 +1,6 @@
-﻿namespace Recipes.Microservice.Common.Services;
+﻿using Recipes.Microservice.Common.Interfaces;
+
+namespace Recipes.Microservice.Common.Services;
 
 public class FileService
 {
