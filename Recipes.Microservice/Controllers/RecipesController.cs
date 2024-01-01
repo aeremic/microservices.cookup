@@ -1,5 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Recipes.Microservice.Common.Models;
+using Recipes.Microservice.Queries.Recipes.GetRecipe;
 using Recipes.Microservice.Queries.Recipes.GetRecommendedRecipes;
 
 namespace Recipes.Microservice.Controllers;
@@ -11,27 +13,33 @@ public class RecipesController : ControllerBase
 {
     #region Properties
 
-    private readonly IMediator _mediator;
+    private readonly ISender _sender;
 
     #endregion
-    
+
     #region Constructors
 
-    public RecipesController(IMediator mediator)
+    public RecipesController(ISender sender)
     {
-        _mediator = mediator;
+        _sender = sender;
     }
-    
+
     #endregion
-    
+
     #region Methods
 
     [HttpPost("[action]")]
     public async Task<ActionResult<List<GetRecommendedRecipeDto>>> GetRecommendedRecipes(
         [FromBody] GetRecommendedRecipesQuery request)
     {
-        return await _mediator.Send(request);
+        return await _sender.Send(request);
     }
-    
+
+    [HttpGet("[action]/{id}")]
+    public async Task<ActionResult<RecipeDto>> GetRecipe(long id)
+    {
+        return await _sender.Send(new GetRecipeQuery { Id = id });
+    }
+
     #endregion
 }

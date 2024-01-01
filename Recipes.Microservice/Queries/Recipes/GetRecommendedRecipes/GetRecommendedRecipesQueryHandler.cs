@@ -21,7 +21,6 @@ public class GetRecommendedRecipesQueryHandler : IRequestHandler<GetRecommendedR
 
     public GetRecommendedRecipesQueryHandler(Repository repository, IMapper mapper)
     {
-        
         _repository = repository;
         _mapper = mapper;
         _logger = LogManager.GetCurrentClassLogger();
