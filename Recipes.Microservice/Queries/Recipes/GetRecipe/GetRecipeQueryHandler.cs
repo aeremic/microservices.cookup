@@ -1,8 +1,11 @@
-﻿using AutoMapper;
+﻿using System.Text.Json;
+using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using NLog;
 using Recipes.Microservice.Common.Models;
+using Recipes.Microservice.Common.Models.DTOs;
+using Recipes.Microservice.Common.Models.DTOs.Serializations;
 using Recipes.Microservice.Infrastructure;
 using ILogger = NLog.ILogger;
 
@@ -44,6 +47,9 @@ public class GetRecipeQueryHandler : IRequestHandler<GetRecipeQuery, RecipeDto?>
             if (recipe != null)
             {
                 result = _mapper.Map<RecipeDto>(recipe);
+                result.Steps = !string.IsNullOrEmpty(recipe.Instructions)
+                    ? JsonSerializer.Deserialize<List<StepDto>>(recipe.Instructions)
+                    : null;
             }
         }
         catch (Exception ex)

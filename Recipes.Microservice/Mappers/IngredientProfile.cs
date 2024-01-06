@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Recipes.Microservice.Common.Models;
+using Recipes.Microservice.Common.Models.DTOs;
 using Recipes.Microservice.Domains;
 
 namespace Recipes.Microservice.Mappers;

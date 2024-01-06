@@ -1,5 +1,5 @@
-﻿using System.Runtime.Serialization;
-using Recipes.Microservice.Common.Models;
+﻿
+using Recipes.Microservice.Common.Models.DTOs;
 
 namespace Recipes.Microservice.Queries.Recipes.GetRecommendedRecipes;
 

@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using MediatR;
 using Recipes.Microservice.Common.Models;
+using Recipes.Microservice.Common.Models.DTOs;
 
 namespace Recipes.Microservice.Queries.Recipes.GetRecipe;
 

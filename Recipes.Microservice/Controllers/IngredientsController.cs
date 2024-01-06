@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Recipes.Microservice.Common.Models;
+using Recipes.Microservice.Common.Models.DTOs;
 using Recipes.Microservice.Queries.Ingredient.GetIngredients;
 
 namespace Recipes.Microservice.Controllers;
