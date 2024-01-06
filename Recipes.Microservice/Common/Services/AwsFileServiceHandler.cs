@@ -4,7 +4,12 @@ namespace Recipes.Microservice.Common.Services;
 
 public class AwsFileServiceHandler : IFileServiceHandler
 {
-    public bool HandleSaveFileAction(string folder, string fileName, string data)
+    public Task<bool> HandleSaveFileActionAsync(IFormFile file, string folder, string fileName)
+    {
+        throw new NotImplementedException();
+    }
+
+    public string HandleGetFileUrlActionAsync(string path)
     {
         throw new NotImplementedException();
     }

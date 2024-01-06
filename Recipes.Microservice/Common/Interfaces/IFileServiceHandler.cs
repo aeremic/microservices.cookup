@@ -2,5 +2,6 @@
 
 public interface IFileServiceHandler
 {
-    public bool HandleSaveFileAction(string folder, string fileName, string data);
+    Task<bool> HandleSaveFileActionAsync(IFormFile file, string folder, string fileName);
+    public string HandleGetFileUrlActionAsync(string path);
 }

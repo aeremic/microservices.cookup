@@ -20,8 +20,13 @@ public class FileService
         _handler = handler;
     }
 
-    public bool SaveFile(string folder, string fileName, string data)
+    public async Task<bool> SaveFileAsync(IFormFile file, string folder, string fileName)
     {
-        return _handler?.HandleSaveFileAction(folder, fileName, data) ?? false;
+        return await _handler?.HandleSaveFileActionAsync(file, folder, fileName)!;
+    }
+
+    public string GetFileUrl(string path)
+    {
+        return _handler?.HandleGetFileUrlActionAsync(path) ?? string.Empty;
     }
 }
