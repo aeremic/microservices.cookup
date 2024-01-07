@@ -29,7 +29,7 @@ public class
         _repository = repository;
         _mapper = mapper;
         _fileService = fileService;
-        
+
         _fileService.Handler =
             new LocalFileServiceHandler(
                 configuration.GetSection(Constants.HostingAddressConfigurationSectionKeys.HostingAddress));
@@ -56,7 +56,8 @@ public class
 
                 result = _mapper.Map<List<GetRecommendedRecipeDto>>(recipes);
 
-                foreach (var item in result)
+                foreach (var item in result
+                             .Where(item => !string.IsNullOrEmpty(item.ThumbnailPath)))
                 {
                     item.ThumbnailPath = _fileService.FormFileUrl(item.ThumbnailPath ?? string.Empty);
                 }

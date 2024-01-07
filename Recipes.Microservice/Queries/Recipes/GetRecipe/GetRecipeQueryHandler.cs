@@ -59,8 +59,10 @@ public class GetRecipeQueryHandler : IRequestHandler<GetRecipeQuery, RecipeDto?>
                     ? JsonSerializer.Deserialize<List<StepDto>>(recipe.Instructions)
                     : null;
 
-
-                result.ThumbnailPath = _fileService.FormFileUrl(result.ThumbnailPath ?? string.Empty);
+                if (!string.IsNullOrEmpty(result.ThumbnailPath))
+                {
+                    result.ThumbnailPath = _fileService.FormFileUrl(result.ThumbnailPath ?? string.Empty);
+                }
             }
         }
         catch (Exception ex)
