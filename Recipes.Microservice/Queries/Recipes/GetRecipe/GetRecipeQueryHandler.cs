@@ -3,7 +3,7 @@ using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using NLog;
-using Recipes.Microservice.Common.Models;
+using Recipes.Microservice.Common;
 using Recipes.Microservice.Common.Models.DTOs;
 using Recipes.Microservice.Common.Models.DTOs.Serializations;
 using Recipes.Microservice.Common.Services;
@@ -25,13 +25,16 @@ public class GetRecipeQueryHandler : IRequestHandler<GetRecipeQuery, RecipeDto?>
 
     #region Constructors
 
-    public GetRecipeQueryHandler(Repository repository, IMapper mapper, FileService fileService)
+    public GetRecipeQueryHandler(Repository repository, IMapper mapper, FileService fileService,
+        IConfiguration configuration)
     {
         _repository = repository;
         _mapper = mapper;
         _fileService = fileService;
-        
-        _fileService.Handler = new LocalFileServiceHandler();
+
+        _fileService.Handler =
+            new LocalFileServiceHandler(
+                configuration.GetSection(Constants.HostingAddressConfigurationSectionKeys.HostingAddress));
         _logger = LogManager.GetCurrentClassLogger();
     }
 
@@ -55,7 +58,8 @@ public class GetRecipeQueryHandler : IRequestHandler<GetRecipeQuery, RecipeDto?>
                 result.Steps = !string.IsNullOrEmpty(recipe.Instructions)
                     ? JsonSerializer.Deserialize<List<StepDto>>(recipe.Instructions)
                     : null;
-                
+
+
                 result.ThumbnailPath = _fileService.FormFileUrl(result.ThumbnailPath ?? string.Empty);
             }
         }

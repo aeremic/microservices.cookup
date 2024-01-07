@@ -27,6 +27,7 @@
 
     <ItemGroup>
       <Folder Include="Commands\" />
+      <Folder Include="wwwroot\" />
     </ItemGroup>
 
 </Project>
