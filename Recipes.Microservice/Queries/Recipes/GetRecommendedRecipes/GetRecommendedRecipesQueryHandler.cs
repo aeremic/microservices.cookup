@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using NLog;
+using Recipes.Microservice.Common.Services;
 using Recipes.Microservice.Infrastructure;
 using ILogger = NLog.ILogger;
 
@@ -13,16 +14,20 @@ public class GetRecommendedRecipesQueryHandler : IRequestHandler<GetRecommendedR
 
     private readonly Repository _repository;
     private readonly IMapper _mapper;
+    private readonly FileService _fileService;
     private readonly ILogger _logger;
     
     #endregion
     
     #region Constructors
 
-    public GetRecommendedRecipesQueryHandler(Repository repository, IMapper mapper)
+    public GetRecommendedRecipesQueryHandler(Repository repository, IMapper mapper, FileService fileService)
     {
         _repository = repository;
-        _mapper = mapper;
+        _mapper = mapper;       
+        _fileService = fileService;
+        
+        _fileService.Handler = new LocalFileServiceHandler();
         _logger = LogManager.GetCurrentClassLogger();
     }
     
@@ -44,6 +49,11 @@ public class GetRecommendedRecipesQueryHandler : IRequestHandler<GetRecommendedR
                     .ToListAsync(cancellationToken);
 
                 result = _mapper.Map<List<GetRecommendedRecipeDto>>(recipes);
+
+                foreach (var item in result)
+                {
+                    item.ThumbnailPath = _fileService.FormFileUrl(item.ThumbnailPath ?? string.Empty);
+                }
             }
         }
         catch (Exception ex)

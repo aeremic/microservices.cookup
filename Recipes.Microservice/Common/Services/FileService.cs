@@ -6,18 +6,13 @@ public class FileService
 {
     private IFileServiceHandler? _handler;
 
+    public IFileServiceHandler Handler
+    {
+        set => _handler = value;
+    }
+
     public FileService()
     {
-    }
-
-    public FileService(IFileServiceHandler? handler)
-    {
-        _handler = handler;
-    }
-
-    public void SetFileServiceHandler(IFileServiceHandler? handler)
-    {
-        _handler = handler;
     }
 
     public async Task<bool> SaveFileAsync(IFormFile file, string folder, string fileName)
@@ -25,8 +20,8 @@ public class FileService
         return await _handler?.HandleSaveFileActionAsync(file, folder, fileName)!;
     }
 
-    public string GetFileUrl(string path)
+    public string FormFileUrl(string path)
     {
-        return _handler?.HandleGetFileUrlActionAsync(path) ?? string.Empty;
+        return _handler?.HandleFormFileUrlActionAsync(path) ?? string.Empty;
     }
 }
