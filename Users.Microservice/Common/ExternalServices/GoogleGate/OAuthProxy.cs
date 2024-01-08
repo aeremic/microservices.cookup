@@ -1,22 +1,22 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text;
+using Newtonsoft.Json;
 
 namespace Users.Microservice.Common.ExternalServices.GoogleGate;
 
 public class OAuthProxy : ProxyBase
 {
-    public static async Task<AccessCodeDto?> ProcessGetAccessCodeAsync(string apiUrl, string endpoint,
-        string clientId, string secret, string redirectUri, string authorizationCode)
+    #region Public methods
+
+    public async Task<AccessCodeDto?> ProcessGetAccessCodeAsync(string apiUrl, string endpoint,
+        string clientId, string clientSecret, string redirectUri, string authorizationCode)
     {
         AccessCodeDto? result = null;
-
-        var requestUrl = FormGetAccessCodeRequestUrl(apiUrl, endpoint);
-        var responseString = await PostAsync(requestUrl, new FormUrlEncodedContent(new[]
-        {
-            new KeyValuePair<string, string>("code", authorizationCode),
-            new KeyValuePair<string, string>("clientId", clientId),
-            new KeyValuePair<string, string>("secret", secret),
-            new KeyValuePair<string, string>("redirectUri", redirectUri)
-        }));
+        var responseString = await PostAsStringAsync(
+            FormGetAccessCodeRequestUrl(apiUrl, endpoint),
+            new StringContent(
+                BuildGetAccessCodePostModel(authorizationCode, clientId, clientSecret, redirectUri,
+                    Constants.Authorization.AuthorizationCodeGrantType),
+                Encoding.UTF8, Constants.ContentTypes.ApplicationXWwwFormUrlencoded));
 
         if (!string.IsNullOrEmpty(responseString))
         {
@@ -26,8 +26,35 @@ public class OAuthProxy : ProxyBase
         return result;
     }
 
-    private static string FormGetAccessCodeRequestUrl(string apiUrl, string endpoint)
+    public async Task<UserInfoDto?> ProcessGetUserInfoAsync(string apiUrl, string endpoint, string accessToken)
     {
-        return $"{apiUrl}/{endpoint}";
+        UserInfoDto? result = null;
+
+        var responseString = await GetAsync(FormGetAccessCodeRequestUrl(apiUrl, endpoint),
+            new List<KeyValuePair<string, string>>
+            {
+                new("Authorization", $"Bearer {accessToken}")
+            });
+
+        if (!string.IsNullOrEmpty(responseString))
+        {
+            result = JsonConvert.DeserializeObject<UserInfoDto>(responseString);
+        }
+
+        return result;
     }
+
+    #endregion
+
+    #region Private methods
+
+    private static string FormGetAccessCodeRequestUrl(string apiUrl, string endpoint) => $"{apiUrl}/{endpoint}";
+
+    private static string BuildGetAccessCodePostModel(string authorizationCode, string clientId, string clientSecret,
+        string redirectUri, string grantType)
+        =>
+            $"code={authorizationCode}&client_id={clientId}&client_secret={clientSecret}" +
+            $"&redirect_uri={redirectUri}&grant_type={grantType}";
+
+    #endregion
 }

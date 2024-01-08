@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
 using NLog;
 using Users.Microservice.Common;
 using Users.Microservice.Common.ExternalServices.GoogleGate;
@@ -47,17 +48,17 @@ public class ExternalLoginCommandHandler : IRequestHandler<ExternalLoginCommand,
 
         try
         {
-            var accessCodeDto = await OAuthProxy.ProcessGetAccessCodeAsync(
-                _googleAuthConfigurationSection.GetSection(Constants.AuthConfigurationSectionKeys.OAuth2Url).Value ??
-                string.Empty,
+            var accessCodeDto = await _oAuthProxy.ProcessGetAccessCodeAsync(
+                _googleAuthConfigurationSection.GetSection(Constants.AuthConfigurationSectionKeys.AccountsBaseUrl)
+                    .Value ?? string.Empty,
                 _googleAuthConfigurationSection.GetSection(Constants.AuthConfigurationSectionKeys.TokenEndpoint)
                     .Value ?? string.Empty,
-                _googleAuthConfigurationSection.GetSection(Constants.AuthConfigurationSectionKeys.ClientId).Value ??
-                string.Empty,
-                _googleAuthConfigurationSection.GetSection(Constants.AuthConfigurationSectionKeys.ClientSecret).Value ??
-                string.Empty,
-                _googleAuthConfigurationSection.GetSection(Constants.AuthConfigurationSectionKeys.RedirectUri).Value ??
-                string.Empty,
+                _googleAuthConfigurationSection.GetSection(Constants.AuthConfigurationSectionKeys.ClientId)
+                    .Value ?? string.Empty,
+                _googleAuthConfigurationSection.GetSection(Constants.AuthConfigurationSectionKeys.ClientSecret)
+                    .Value ?? string.Empty,
+                _googleAuthConfigurationSection.GetSection(Constants.AuthConfigurationSectionKeys.RedirectUri)
+                    .Value ?? string.Empty,
                 request.AuthorizationCode);
 
             if (accessCodeDto == null || string.IsNullOrEmpty(accessCodeDto.AccessToken))
@@ -65,52 +66,51 @@ public class ExternalLoginCommandHandler : IRequestHandler<ExternalLoginCommand,
                 return result;
             }
 
-            // Get userinfo by AccessToken
+            var userInfo = await _oAuthProxy.ProcessGetUserInfoAsync(_googleAuthConfigurationSection
+                    .GetSection(Constants.AuthConfigurationSectionKeys.GoogleApisBaseUrl)
+                    .Value ?? string.Empty,
+                _googleAuthConfigurationSection.GetSection(Constants.AuthConfigurationSectionKeys.UserInfoEndpoint)
+                    .Value ?? string.Empty,
+                accessCodeDto.AccessToken);
 
-            // var settings = new GoogleJsonWebSignature.ValidationSettings()
-            // {
-            //     Audience = new List<string>()
-            //     {
-            //         _googleAuthConfigurationSection.GetSection(Constants.AuthConfigurationSectionKeys.ClientId).Value ?? string.Empty
-            //     }
-            // };
-            //
-            // var payload = await GoogleJsonWebSignature.ValidateAsync(request.IdToken, settings);
-            // if (payload == null)
-            // {
-            //     return result;
-            // }
-            // result.Provider = request.Provider;
-            //
-            // var userInDb = await _repository.Users
-            //     .Where(user => user.Email == payload.Email)
-            //     .FirstOrDefaultAsync(cancellationToken: cancellationToken);
-            //
-            // User? user;
-            // if (userInDb != null)
-            // {
-            //     user = userInDb;
-            // }
-            // else
-            // {
-            //     user = new User
-            //     {
-            //         Guid = new Guid(),
-            //         Email = payload.Email,
-            //         Role = (int) Constants.Role.Regular
-            //     };
-            //     await _repository.AddAsync(user, cancellationToken);
-            //     
-            //     result.IsNewUser = true;
-            // }
-            //
-            // var token = _jwtHandler.GenerateToken(user);
-            //
-            // if (!string.IsNullOrEmpty(token))
-            // {
-            //     result.Token = token;
-            //     result.IsSuccess = true;
-            // }
+            if (userInfo == null)
+            {
+                return result;
+            }
+
+            var userInDb = await _repository.Users
+                .Where(user => user.Email == userInfo.Email)
+                .FirstOrDefaultAsync(cancellationToken: cancellationToken);
+
+            User? user;
+            if (userInDb != null)
+            {
+                user = userInDb;
+            }
+            else
+            {
+                user = new User
+                {
+                    Guid = Guid.NewGuid(),
+                    Email = userInfo.Email!,
+                    Username = userInfo.Name,
+                    ImageFullPath = userInfo.Picture!.ToString(),
+                    Role = (int)Constants.Role.Regular
+                };
+                
+                await _repository.AddAsync(user, cancellationToken);
+                await _repository.SaveChangesAsync(cancellationToken);
+                
+                result.IsNewUser = true;
+            }
+
+            var token = _jwtHandler.GenerateToken(user);
+
+            if (!string.IsNullOrEmpty(token))
+            {
+                result.Token = token;
+                result.IsSuccess = true;
+            }
         }
         catch (Exception ex)
         {

@@ -10,20 +10,32 @@ public static class Constants
 
     public static class AuthConfigurationSectionKeys
     {
-        public static readonly string AuthenticationGoogle = "Authentication:Google";
-        public static readonly string OAuth2Url = "OAuth2Url";
-        public static readonly string TokenEndpoint = "TokenEndpoint";
-        public static readonly string ClientId = "ClientId";
-        public static readonly string ClientSecret = "ClientSecret";
-        public static readonly string RedirectUri = "RedirectUri";
+        public const string AuthenticationGoogle = "Authentication:Google";
+        public const string GoogleApisBaseUrl = "GoogleApisBaseUrl";
+        public const string AccountsBaseUrl = "AccountsBaseUrl";
+        public const string TokenEndpoint = "TokenEndpoint";
+        public const string UserInfoEndpoint = "UserInfoEndpoint";
+        public const string ClientId = "ClientId";
+        public const string ClientSecret = "ClientSecret";
+        public const string RedirectUri = "RedirectUri";
     }
     
     public static class JwtConfigurationSectionKeys
     {
-        public static readonly string Jwt = "Jwt";
-        public static readonly string SecurityKey = "SecurityKey";
-        public static readonly string ValidIssuer = "ValidIssuer";
-        public static readonly string ValidAudience = "ValidAudience";
-        public static readonly string ExpiryInMinutes = "ExpiryInMinutes";
+        public const string Jwt = "Jwt";
+        public const string SecurityKey = "SecurityKey";
+        public const string ValidIssuer = "ValidIssuer";
+        public const string ValidAudience = "ValidAudience";
+        public const string ExpiryInMinutes = "ExpiryInMinutes";
+    }
+
+    public static class Authorization
+    {
+        public const string AuthorizationCodeGrantType = "authorization_code";
+    }
+
+    public static class ContentTypes
+    {
+        public const string ApplicationXWwwFormUrlencoded = "application/x-www-form-urlencoded";
     }
 }
