@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using NLog;
 using Users.Microservice.Common;
 using Users.Microservice.Common.ExternalServices.GoogleGate;
+using Users.Microservice.Common.Services;
 using Users.Microservice.Domains;
 using Users.Microservice.Infrastructure;
-using Users.Microservice.Services;
 
 namespace Users.Microservice.Commands.Auth.ExternalLogin;
 

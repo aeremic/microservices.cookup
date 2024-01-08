@@ -34,7 +34,7 @@ public class OAuthProxy : ProxyBase
         var responseString = await GetAsync(FormGetAccessCodeRequestUrl(apiUrl, endpoint),
             new List<KeyValuePair<string, string>>
             {
-                new("Authorization", $"Bearer {accessToken}")
+                new(Constants.Authorization.AuthorizationHeader, $"Bearer {accessToken}")
             });
 
         if (!string.IsNullOrEmpty(responseString))

@@ -2,10 +2,9 @@
 using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
-using Users.Microservice.Common;
 using Users.Microservice.Domains;
 
-namespace Users.Microservice.Services;
+namespace Users.Microservice.Common.Services;
 
 public class JwtHandler
 {
@@ -14,7 +13,7 @@ public class JwtHandler
     private readonly IConfigurationSection _jwtConfigurationSection;
 
     #endregion
-    
+
     #region Constructors
 
     public JwtHandler(IConfiguration configuration)
@@ -26,7 +25,6 @@ public class JwtHandler
 
     #region Methods
 
-        
     public string GenerateToken(User user)
     {
         var signingCredentials = GetSigningCredentials();
@@ -34,7 +32,7 @@ public class JwtHandler
         var tokenOptions = GenerateTokenOptions(signingCredentials, claims);
 
         var token = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
-        
+
         return token;
     }
 
@@ -64,7 +62,8 @@ public class JwtHandler
             issuer: _jwtConfigurationSection[Constants.JwtConfigurationSectionKeys.ValidIssuer],
             audience: _jwtConfigurationSection[Constants.JwtConfigurationSectionKeys.ValidAudience],
             claims: claims,
-            expires: DateTime.Now.AddMinutes(Convert.ToDouble(Constants.JwtConfigurationSectionKeys.ExpiryInMinutes)),
+            expires: DateTime.UtcNow.AddMinutes(
+                Convert.ToDouble(_jwtConfigurationSection[Constants.JwtConfigurationSectionKeys.ExpiryInMinutes])),
             signingCredentials: signingCredentials);
 
         return tokenOptions;

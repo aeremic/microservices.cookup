@@ -31,6 +31,7 @@ public static class Constants
 
     public static class Authorization
     {
+        public const string AuthorizationHeader = "Authorization";
         public const string AuthorizationCodeGrantType = "authorization_code";
     }
 

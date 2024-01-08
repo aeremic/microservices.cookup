@@ -7,8 +7,8 @@ using NLog;
 using NLog.Web;
 using Users.Microservice.Common;
 using Users.Microservice.Common.ExternalServices.GoogleGate;
+using Users.Microservice.Common.Services;
 using Users.Microservice.Infrastructure;
-using Users.Microservice.Services;
 
 var logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 try
