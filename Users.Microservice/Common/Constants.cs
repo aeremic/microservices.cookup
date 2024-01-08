@@ -11,7 +11,11 @@ public static class Constants
     public static class AuthConfigurationSectionKeys
     {
         public static readonly string AuthenticationGoogle = "Authentication:Google";
+        public static readonly string OAuth2Url = "OAuth2Url";
+        public static readonly string TokenEndpoint = "TokenEndpoint";
         public static readonly string ClientId = "ClientId";
+        public static readonly string ClientSecret = "ClientSecret";
+        public static readonly string RedirectUri = "RedirectUri";
     }
     
     public static class JwtConfigurationSectionKeys

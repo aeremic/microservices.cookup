@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Users.Microservice.Common.Models;
+using Users.Microservice.Common.Models.DTOs;
 using Users.Microservice.Queries.User.GetAllUsersData;
 using Users.Microservice.Queries.User.GetUserData;
 
@@ -14,15 +15,15 @@ public class UsersController : ControllerBase
 {
     #region Properties
 
-    private readonly IMediator _mediator;
+    private readonly ISender _sender;
 
     #endregion
 
     #region Constructors
 
-    public UsersController(IMediator mediator)
+    public UsersController(ISender sender)
     {
-        _mediator = mediator;
+        _sender = sender;
     }
 
     #endregion
@@ -37,7 +38,7 @@ public class UsersController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<UserDataDto>> GetUserData(long id)
     {
-        return await _mediator.Send(new GetUserDataQuery { Id = id });
+        return await _sender.Send(new GetUserDataQuery { Id = id });
     }
 
     /// <summary>
@@ -47,7 +48,7 @@ public class UsersController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<List<UserDataDto>>> GetUsersData()
     {
-        return await _mediator.Send(new GetUsersDataQuery());
+        return await _sender.Send(new GetUsersDataQuery());
     }
 
     #endregion

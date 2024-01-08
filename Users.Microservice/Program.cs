@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using NLog;
 using NLog.Web;
 using Users.Microservice.Common;
+using Users.Microservice.Common.ExternalServices.GoogleGate;
 using Users.Microservice.Infrastructure;
 using Users.Microservice.Services;
 
@@ -22,6 +23,7 @@ try
 
     var jwtSection = builder.Configuration.GetSection(Constants.JwtConfigurationSectionKeys.Jwt);
     builder.Services.AddScoped<JwtHandler>();
+    builder.Services.AddScoped<OAuthProxy>();
     builder.Services.AddAuthentication(options =>
     {
         options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

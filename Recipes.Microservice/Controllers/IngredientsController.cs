@@ -12,15 +12,15 @@ public class IngredientsController : ControllerBase
 {
     #region Properties
 
-    private readonly IMediator _mediator;
+    private readonly ISender _sender;
 
     #endregion
 
     #region Constructors
 
-    public IngredientsController(IMediator mediator)
+    public IngredientsController(ISender sender)
     {
-        _mediator = mediator;
+        _sender = sender;
     }
 
     #endregion
@@ -30,7 +30,7 @@ public class IngredientsController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<List<IngredientDto>>> GetIngredients()
     {
-        return await _mediator.Send(new GetIngredientsQuery());
+        return await _sender.Send(new GetIngredientsQuery());
     }
 
     #endregion
