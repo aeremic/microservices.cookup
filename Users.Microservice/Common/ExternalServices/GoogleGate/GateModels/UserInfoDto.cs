@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Users.Microservice.Common.ExternalServices.GoogleGate;
+namespace Users.Microservice.Common.ExternalServices.GoogleGate.GateModels;
 
 public sealed class UserInfoDto
 {

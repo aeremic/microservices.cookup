@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using Newtonsoft.Json;
+using Users.Microservice.Common.ExternalServices.GoogleGate.GateModels;
 
 namespace Users.Microservice.Common.ExternalServices.GoogleGate;
 
