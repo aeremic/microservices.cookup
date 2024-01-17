@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Recipes.Microservice.Common.Models.DTOs;
 using Recipes.Microservice.Queries.Ingredient.GetIngredients;
@@ -6,7 +7,7 @@ using Recipes.Microservice.Queries.Ingredient.GetIngredients;
 namespace Recipes.Microservice.Controllers;
 
 [Route("api/[controller]")]
-// [Authorize]
+[Authorize]
 [ApiController]
 public class IngredientsController : ControllerBase
 {

@@ -9,7 +9,7 @@ using Users.Microservice.Queries.User.GetUserData;
 namespace Users.Microservice.Controllers;
 
 [Route("api/[controller]")]
-// [Authorize]
+[Authorize]
 [ApiController]
 public class UsersController : ControllerBase
 {

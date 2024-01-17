@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Gateway.CookUp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8008f6448aa0face3bdc248c75326b46676d97c6")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+48b52beec233f725a143155e9a18b5c6a468c4a7")]
 [assembly: System.Reflection.AssemblyProductAttribute("Gateway.CookUp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Gateway.CookUp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
