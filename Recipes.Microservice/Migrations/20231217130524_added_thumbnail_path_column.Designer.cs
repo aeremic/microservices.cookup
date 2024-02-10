@@ -11,7 +11,7 @@ using Recipes.Microservice.Infrastructure;
 
 namespace Recipes.Microservice.Migrations
 {
-    [DbContext(typeof(Repository))]
+    [DbContext(typeof(ApplicationDbContext))]
     [Migration("20231217130524_added_thumbnail_path_column")]
     partial class added_thumbnail_path_column
     {

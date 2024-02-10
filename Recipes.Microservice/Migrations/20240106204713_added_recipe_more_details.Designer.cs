@@ -11,7 +11,7 @@ using Recipes.Microservice.Infrastructure;
 
 namespace Recipes.Microservice.Migrations
 {
-    [DbContext(typeof(Repository))]
+    [DbContext(typeof(ApplicationDbContext))]
     [Migration("20240106204713_added_recipe_more_details")]
     partial class added_recipe_more_details
     {

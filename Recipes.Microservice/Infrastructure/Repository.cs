@@ -1,37 +1,39 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Recipes.Microservice.Domains;
+using Recipes.Microservice.Domain.Models;
 
 namespace Recipes.Microservice.Infrastructure;
 
-public class Repository : DbContext
+public abstract class Repository<TEntity> where TEntity : Entity
 {
-    #region Constructors
+    protected readonly ApplicationDbContext ApplicationDbContext;
 
-    public Repository(DbContextOptions options) : base(options)
+    protected Repository(ApplicationDbContext applicationDbContext)
     {
+        ApplicationDbContext = applicationDbContext;
     }
 
-    #endregion
-
-    #region Entities
-
-    public required DbSet<Recipe> Recipes { get; set; }
-    
-    public required DbSet<Ingredient> Ingredients { get; set; }
-    
-    #endregion
-
-    #region Configuration
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    public void Add(TEntity entity)
     {
-        // Configuration setup
+        ApplicationDbContext.Set<TEntity>().Add(entity);
     }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    public void Update(TEntity entity)
     {
-        // Foreign keys setup
+        ApplicationDbContext.Set<TEntity>().Update(entity);
     }
 
-    #endregion
+    public void Remove(TEntity entity)
+    {
+        ApplicationDbContext.Set<TEntity>().Remove(entity);
+    }
+
+    public Task<TEntity?> Get(long id, CancellationToken cancellationToken)
+    {
+        return ApplicationDbContext.Set<TEntity>().Where(e => e.Id == id).FirstOrDefaultAsync(cancellationToken);
+    }
+
+    public Task<List<TEntity>> Get(CancellationToken cancellationToken)
+    {
+        return ApplicationDbContext.Set<TEntity>().ToListAsync(cancellationToken);
+    }
 }

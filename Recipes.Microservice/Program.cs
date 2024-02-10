@@ -7,6 +7,7 @@ using NLog;
 using NLog.Web;
 using Recipes.Microservice.Common;
 using Recipes.Microservice.Common.Services;
+using Recipes.Microservice.Domain.Interfaces;
 using Recipes.Microservice.Infrastructure;
 
 var logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
@@ -17,7 +18,7 @@ try
     // Configure services.
     builder.Services.AddMediatR(config => config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
     builder.Services.AddAutoMapper(typeof(Program));
-    builder.Services.AddDbContext<Repository>(options =>
+    builder.Services.AddDbContext<ApplicationDbContext>(options =>
         options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
     var jwtSection = builder.Configuration.GetSection(Constants.JwtConfigurationSectionKeys.Jwt);
@@ -40,6 +41,8 @@ try
         };
     });
 
+    builder.Services.AddScoped<IRecipeRepository, RecipeRepository>();
+    builder.Services.AddScoped<IIngredientRepository, IngredientRepository>();
     builder.Services.AddScoped<FileService>();
     
     builder.Services.AddControllers();

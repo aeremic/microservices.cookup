@@ -7,6 +7,7 @@ using Recipes.Microservice.Common;
 using Recipes.Microservice.Common.Models.DTOs;
 using Recipes.Microservice.Common.Models.DTOs.Serializations;
 using Recipes.Microservice.Common.Services;
+using Recipes.Microservice.Domain.Interfaces;
 using Recipes.Microservice.Infrastructure;
 using ILogger = NLog.ILogger;
 
@@ -16,7 +17,7 @@ public class GetRecipeQueryHandler : IRequestHandler<GetRecipeQuery, RecipeDto?>
 {
     #region Properties
 
-    private readonly Repository _repository;
+    private readonly IRecipeRepository _repository;
     private readonly IMapper _mapper;
     private readonly FileService _fileService;
     private readonly ILogger _logger;
@@ -25,7 +26,7 @@ public class GetRecipeQueryHandler : IRequestHandler<GetRecipeQuery, RecipeDto?>
 
     #region Constructors
 
-    public GetRecipeQueryHandler(Repository repository, IMapper mapper, FileService fileService,
+    public GetRecipeQueryHandler(IRecipeRepository repository, IMapper mapper, FileService fileService,
         IConfiguration configuration)
     {
         _repository = repository;
@@ -47,11 +48,8 @@ public class GetRecipeQueryHandler : IRequestHandler<GetRecipeQuery, RecipeDto?>
         RecipeDto? result = default;
         try
         {
-            var recipe = await _repository.Recipes
-                .Where(recipe => recipe.Id == request.Id)
-                .Include(recipe => recipe.Ingredients)
-                .FirstOrDefaultAsync(cancellationToken);
-
+            var recipe = await _repository.GetByIdWithIngredientsAsync(request.Id, cancellationToken);
+                
             if (recipe != null)
             {
                 result = _mapper.Map<RecipeDto>(recipe);

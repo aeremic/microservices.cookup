@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using NLog;
 using Recipes.Microservice.Common.Models.DTOs;
+using Recipes.Microservice.Domain.Interfaces;
 using Recipes.Microservice.Infrastructure;
 
 namespace Recipes.Microservice.Queries.Ingredient.GetIngredients;
@@ -11,7 +12,7 @@ public class GetIngredientsQueryHandler : IRequestHandler<GetIngredientsQuery, L
 {
     #region Properties
 
-    private readonly Repository _repository;
+    private readonly IIngredientRepository _repository;
     private readonly IMapper _mapper;
     private readonly Logger _logger;
 
@@ -19,7 +20,7 @@ public class GetIngredientsQueryHandler : IRequestHandler<GetIngredientsQuery, L
 
     #region Constructors
 
-    public GetIngredientsQueryHandler(Repository repository, IMapper mapper)
+    public GetIngredientsQueryHandler(IIngredientRepository repository, IMapper mapper)
     {
         _repository = repository;
         _mapper = mapper;
@@ -35,7 +36,7 @@ public class GetIngredientsQueryHandler : IRequestHandler<GetIngredientsQuery, L
         var result = new List<IngredientDto>();
         try
         {
-            var ingredients = await _repository.Ingredients.ToListAsync(cancellationToken);
+            var ingredients = await _repository.Get(cancellationToken);
 
             result = _mapper.Map<List<IngredientDto>>(ingredients);
         }

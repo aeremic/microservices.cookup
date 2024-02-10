@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using NLog;
 using Recipes.Microservice.Common;
 using Recipes.Microservice.Common.Services;
+using Recipes.Microservice.Domain.Interfaces;
 using Recipes.Microservice.Infrastructure;
 using ILogger = NLog.ILogger;
 
@@ -14,7 +15,7 @@ public class
 {
     #region Properties
 
-    private readonly Repository _repository;
+    private readonly IRecipeRepository _repository;
     private readonly IMapper _mapper;
     private readonly FileService _fileService;
     private readonly ILogger _logger;
@@ -23,7 +24,7 @@ public class
 
     #region Constructors
 
-    public GetRecommendedRecipesQueryHandler(Repository repository, IMapper mapper, FileService fileService,
+    public GetRecommendedRecipesQueryHandler(IRecipeRepository repository, IMapper mapper, FileService fileService,
         IConfiguration configuration)
     {
         _repository = repository;
@@ -48,11 +49,8 @@ public class
         {
             if (request.PickedIngredients.Any())
             {
-                var recipes = await _repository.Recipes
-                    .Include(recipe => recipe.Ingredients)
-                    .Where(recipe =>
-                        recipe.Ingredients!.Any(ingredient => request.PickedIngredients.Contains(ingredient.Id)))
-                    .ToListAsync(cancellationToken);
+                var recipes =
+                    await _repository.GetRecipesContainingIngredients(request.PickedIngredients, cancellationToken);
 
                 result = _mapper.Map<List<GetRecommendedRecipeDto>>(recipes);
 
