@@ -4,5 +4,5 @@ namespace Recipes.Microservice.Domain.Interfaces;
 
 public interface IIngredientRepository
 {
-    Task<List<Ingredient>> Get(CancellationToken cancellationToken);
+    Task<List<Ingredient>> GetAsync(CancellationToken cancellationToken);
 }

@@ -1,8 +1,7 @@
-﻿namespace Users.Microservice.Domains;
+﻿namespace Users.Microservice.Domains.Models;
 
-public class User
+public class User : Entity
 {
-    public long Id { get; set; }
     public Guid Guid { get; set; }
     public required string Email { get; set; }
     public required int Role { get; set; }

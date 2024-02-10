@@ -36,7 +36,7 @@ public class GetIngredientsQueryHandler : IRequestHandler<GetIngredientsQuery, L
         var result = new List<IngredientDto>();
         try
         {
-            var ingredients = await _repository.Get(cancellationToken);
+            var ingredients = await _repository.GetAsync(cancellationToken);
 
             result = _mapper.Map<List<IngredientDto>>(ingredients);
         }

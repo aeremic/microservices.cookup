@@ -10,7 +10,7 @@ using Users.Microservice.Infrastructure;
 
 namespace Users.Microservice.Migrations
 {
-    [DbContext(typeof(Repository))]
+    [DbContext(typeof(ApplicationDbContext))]
     partial class RepositoryModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

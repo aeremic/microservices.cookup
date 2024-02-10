@@ -8,6 +8,7 @@ using NLog.Web;
 using Users.Microservice.Common;
 using Users.Microservice.Common.ExternalServices.GoogleGate;
 using Users.Microservice.Common.Services;
+using Users.Microservice.Domains.Interfaces;
 using Users.Microservice.Infrastructure;
 
 var logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
@@ -18,7 +19,7 @@ try
     // Configure services.
     builder.Services.AddMediatR(config => config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
     builder.Services.AddAutoMapper(typeof(Program));
-    builder.Services.AddDbContext<Repository>(options =>
+    builder.Services.AddDbContext<ApplicationDbContext>(options =>
         options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
     var jwtSection = builder.Configuration.GetSection(Constants.JwtConfigurationSectionKeys.Jwt);
@@ -43,6 +44,8 @@ try
         };
     });
 
+    builder.Services.AddScoped<IUserRepository, UserRepository>();
+    
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();

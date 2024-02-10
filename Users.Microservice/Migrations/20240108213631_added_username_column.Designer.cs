@@ -11,7 +11,7 @@ using Users.Microservice.Infrastructure;
 
 namespace Users.Microservice.Migrations
 {
-    [DbContext(typeof(Repository))]
+    [DbContext(typeof(ApplicationDbContext))]
     [Migration("20240108213631_added_username_column")]
     partial class added_username_column
     {

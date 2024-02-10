@@ -12,27 +12,33 @@ public abstract class Repository<TEntity> where TEntity : Entity
         ApplicationDbContext = applicationDbContext;
     }
 
-    public void Add(TEntity entity)
+    public Task AddAsync(TEntity entity, CancellationToken cancellationToken)
     {
         ApplicationDbContext.Set<TEntity>().Add(entity);
+        
+        return Task.FromResult(ApplicationDbContext.SaveChangesAsync(cancellationToken));
     }
 
-    public void Update(TEntity entity)
+    public Task Update(TEntity entity, CancellationToken cancellationToken)
     {
         ApplicationDbContext.Set<TEntity>().Update(entity);
+        
+        return Task.FromResult(ApplicationDbContext.SaveChangesAsync(cancellationToken));
     }
 
-    public void Remove(TEntity entity)
+    public Task Remove(TEntity entity, CancellationToken cancellationToken)
     {
         ApplicationDbContext.Set<TEntity>().Remove(entity);
+        
+        return Task.FromResult(ApplicationDbContext.SaveChangesAsync(cancellationToken));
     }
 
-    public Task<TEntity?> Get(long id, CancellationToken cancellationToken)
+    public Task<TEntity?> GetAsync(long id, CancellationToken cancellationToken)
     {
         return ApplicationDbContext.Set<TEntity>().Where(e => e.Id == id).FirstOrDefaultAsync(cancellationToken);
     }
 
-    public Task<List<TEntity>> Get(CancellationToken cancellationToken)
+    public Task<List<TEntity>> GetAsync(CancellationToken cancellationToken)
     {
         return ApplicationDbContext.Set<TEntity>().ToListAsync(cancellationToken);
     }

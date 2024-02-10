@@ -1,11 +1,10 @@
 ﻿using MediatR;
-using Microsoft.EntityFrameworkCore;
 using NLog;
 using Users.Microservice.Common;
 using Users.Microservice.Common.ExternalServices.GoogleGate;
 using Users.Microservice.Common.Services;
-using Users.Microservice.Domains;
-using Users.Microservice.Infrastructure;
+using Users.Microservice.Domains.Interfaces;
+using Users.Microservice.Domains.Models;
 
 namespace Users.Microservice.Commands.Auth.ExternalLogin;
 
@@ -14,7 +13,7 @@ public class ExternalLoginCommandHandler : IRequestHandler<ExternalLoginCommand,
     #region Properties
 
     private readonly IConfigurationSection _googleAuthConfigurationSection;
-    private readonly Repository _repository;
+    private readonly IUserRepository _repository;
     private readonly OAuthProxy _oAuthProxy;
     private readonly JwtHandler _jwtHandler;
     private readonly Logger _logger;
@@ -23,7 +22,7 @@ public class ExternalLoginCommandHandler : IRequestHandler<ExternalLoginCommand,
 
     #region Constructors
 
-    public ExternalLoginCommandHandler(IConfiguration configuration, Repository repository, JwtHandler jwtHandler,
+    public ExternalLoginCommandHandler(IConfiguration configuration, IUserRepository repository, JwtHandler jwtHandler,
         OAuthProxy oAuthProxy)
     {
         _googleAuthConfigurationSection =
@@ -73,14 +72,12 @@ public class ExternalLoginCommandHandler : IRequestHandler<ExternalLoginCommand,
                     .Value ?? string.Empty,
                 accessCodeDto.AccessToken);
 
-            if (userInfo == null)
+            if (userInfo?.Email == null)
             {
                 return result;
             }
 
-            var userInDb = await _repository.Users
-                .Where(user => user.Email == userInfo.Email)
-                .FirstOrDefaultAsync(cancellationToken: cancellationToken);
+            var userInDb = await _repository.GetByEmail(userInfo.Email, cancellationToken);
 
             User? user;
             if (userInDb != null)
@@ -99,7 +96,6 @@ public class ExternalLoginCommandHandler : IRequestHandler<ExternalLoginCommand,
                 };
                 
                 await _repository.AddAsync(user, cancellationToken);
-                await _repository.SaveChangesAsync(cancellationToken);
                 
                 result.IsNewUser = true;
             }

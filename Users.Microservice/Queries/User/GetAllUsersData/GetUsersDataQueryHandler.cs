@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using NLog;
 using Users.Microservice.Common.Models;
 using Users.Microservice.Common.Models.DTOs;
+using Users.Microservice.Domains.Interfaces;
 using Users.Microservice.Infrastructure;
 
 namespace Users.Microservice.Queries.User.GetAllUsersData;
@@ -12,7 +13,7 @@ public class GetUsersDataQueryHandler : IRequestHandler<GetUsersDataQuery, List<
 {
     #region Properties
 
-    private readonly Repository _repository;
+    private readonly IUserRepository _repository;
     private readonly IMapper _mapper;
     private readonly Logger _logger;
 
@@ -20,7 +21,7 @@ public class GetUsersDataQueryHandler : IRequestHandler<GetUsersDataQuery, List<
 
     #region Constructors
 
-    public GetUsersDataQueryHandler(Repository repository, IMapper mapper)
+    public GetUsersDataQueryHandler(IUserRepository repository, IMapper mapper)
     {
         _repository = repository;
         _mapper = mapper;
@@ -36,7 +37,7 @@ public class GetUsersDataQueryHandler : IRequestHandler<GetUsersDataQuery, List<
         var result = new List<UserDataDto>();
         try
         {
-            var users = await _repository.Users.ToListAsync(cancellationToken);
+            var users = await _repository.Get(cancellationToken);
 
             result = _mapper.Map<List<UserDataDto>>(users);
         }

@@ -11,7 +11,7 @@ using Users.Microservice.Infrastructure;
 
 namespace Users.Microservice.Migrations
 {
-    [DbContext(typeof(Repository))]
+    [DbContext(typeof(ApplicationDbContext))]
     [Migration("20240107171125_add_users_table")]
     partial class add_users_table
     {
