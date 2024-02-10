@@ -1,11 +1,8 @@
 ﻿using AutoMapper;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using NLog;
-using Users.Microservice.Common.Models;
 using Users.Microservice.Common.Models.DTOs;
 using Users.Microservice.Domains.Interfaces;
-using Users.Microservice.Infrastructure;
 
 namespace Users.Microservice.Queries.User.GetUserData;
 

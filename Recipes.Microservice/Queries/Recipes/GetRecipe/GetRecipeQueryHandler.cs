@@ -1,14 +1,12 @@
 ﻿using System.Text.Json;
 using AutoMapper;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using NLog;
 using Recipes.Microservice.Common;
 using Recipes.Microservice.Common.Models.DTOs;
 using Recipes.Microservice.Common.Models.DTOs.Serializations;
 using Recipes.Microservice.Common.Services;
 using Recipes.Microservice.Domain.Interfaces;
-using Recipes.Microservice.Infrastructure;
 using ILogger = NLog.ILogger;
 
 namespace Recipes.Microservice.Queries.Recipes.GetRecipe;

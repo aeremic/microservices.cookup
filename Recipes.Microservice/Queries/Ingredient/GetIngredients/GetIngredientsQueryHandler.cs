@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using NLog;
 using Recipes.Microservice.Common.Models.DTOs;
 using Recipes.Microservice.Domain.Interfaces;
-using Recipes.Microservice.Infrastructure;
 
 namespace Recipes.Microservice.Queries.Ingredient.GetIngredients;
 
