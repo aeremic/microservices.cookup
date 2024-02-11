@@ -3,8 +3,8 @@ using NLog;
 using Users.Microservice.Common;
 using Users.Microservice.Common.ExternalServices.GoogleGate;
 using Users.Microservice.Common.Services;
-using Users.Microservice.Domains.Interfaces;
-using Users.Microservice.Domains.Models;
+using Users.Microservice.Domain.Interfaces;
+using Users.Microservice.Domain.Models;
 
 namespace Users.Microservice.Commands.Auth.ExternalLogin;
 

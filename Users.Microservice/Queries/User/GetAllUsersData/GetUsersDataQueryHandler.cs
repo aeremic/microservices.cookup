@@ -2,7 +2,7 @@
 using MediatR;
 using NLog;
 using Users.Microservice.Common.Models.DTOs;
-using Users.Microservice.Domains.Interfaces;
+using Users.Microservice.Domain.Interfaces;
 
 namespace Users.Microservice.Queries.User.GetAllUsersData;
 

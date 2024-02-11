@@ -1,4 +1,4 @@
-﻿namespace Users.Microservice.Domains.Models;
+﻿namespace Users.Microservice.Domain.Models;
 
 public class Entity
 {

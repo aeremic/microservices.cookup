@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Users.Microservice.Domains.Interfaces;
-using Users.Microservice.Domains.Models;
+using Users.Microservice.Domain.Interfaces;
+using Users.Microservice.Domain.Models;
 
 namespace Users.Microservice.Infrastructure;
 

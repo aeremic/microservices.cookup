@@ -1,6 +1,6 @@
-﻿using Users.Microservice.Domains.Models;
+﻿using Users.Microservice.Domain.Models;
 
-namespace Users.Microservice.Domains.Interfaces;
+namespace Users.Microservice.Domain.Interfaces;
 
 public interface IUserRepository
 {

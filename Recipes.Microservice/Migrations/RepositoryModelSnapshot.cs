@@ -37,7 +37,7 @@ namespace Recipes.Microservice.Migrations
                     b.ToTable("IngredientRecipe");
                 });
 
-            modelBuilder.Entity("Recipes.Microservice.Domains.Ingredient", b =>
+            modelBuilder.Entity("Recipes.Microservice.Domain.Models.Ingredient", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -53,7 +53,7 @@ namespace Recipes.Microservice.Migrations
                     b.ToTable("Ingredients");
                 });
 
-            modelBuilder.Entity("Recipes.Microservice.Domains.Recipe", b =>
+            modelBuilder.Entity("Recipes.Microservice.Domain.Models.Recipe", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -101,13 +101,13 @@ namespace Recipes.Microservice.Migrations
 
             modelBuilder.Entity("IngredientRecipe", b =>
                 {
-                    b.HasOne("Recipes.Microservice.Domains.Ingredient", null)
+                    b.HasOne("Recipes.Microservice.Domain.Models.Ingredient", null)
                         .WithMany()
                         .HasForeignKey("IngredientsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Recipes.Microservice.Domains.Recipe", null)
+                    b.HasOne("Recipes.Microservice.Domain.Models.Recipe", null)
                         .WithMany()
                         .HasForeignKey("RecipesId")
                         .OnDelete(DeleteBehavior.Cascade)
