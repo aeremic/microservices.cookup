@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gateway.CookUp", "Gateway.C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recipes.Microservice", "Recipes.Microservice\Recipes.Microservice.csproj", "{C09EAA88-26FD-4192-BC38-28D5225B5C0E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Queuing", "Queuing\Queuing.csproj", "{F5E3927E-A6B2-4C49-B719-34C10A02AD5E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{C09EAA88-26FD-4192-BC38-28D5225B5C0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C09EAA88-26FD-4192-BC38-28D5225B5C0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C09EAA88-26FD-4192-BC38-28D5225B5C0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5E3927E-A6B2-4C49-B719-34C10A02AD5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5E3927E-A6B2-4C49-B719-34C10A02AD5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5E3927E-A6B2-4C49-B719-34C10A02AD5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5E3927E-A6B2-4C49-B719-34C10A02AD5E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -38,6 +44,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{D557FD48-8E45-46C8-8942-3858E7C73886} = {4E947E11-7379-42FE-A728-8BA10843889B}
 		{C09EAA88-26FD-4192-BC38-28D5225B5C0E} = {4E947E11-7379-42FE-A728-8BA10843889B}
+		{F5E3927E-A6B2-4C49-B719-34C10A02AD5E} = {4E947E11-7379-42FE-A728-8BA10843889B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6A14EA9B-911F-4545-99BE-1AFA988779B4}
