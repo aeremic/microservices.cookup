@@ -16,9 +16,9 @@ public class ApplicationDbContext : DbContext
 
     #region Entities
 
-    public required DbSet<Recipe> Recipes { get; init; }
+    public DbSet<Recipe> Recipes { get; init; }
 
-    public required DbSet<Ingredient> Ingredients { get; init; }
+    public DbSet<Ingredient> Ingredients { get; init; }
 
     #endregion
 

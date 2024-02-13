@@ -15,7 +15,7 @@ public class ApplicationDbContext : DbContext
 
     #region Entities
 
-    public required DbSet<User> Users { get; init; }
+    public DbSet<User> Users { get; init; }
 
     #endregion
 

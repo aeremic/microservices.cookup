@@ -96,7 +96,7 @@ public class ExternalLoginCommandHandler : IRequestHandler<ExternalLoginCommand,
                     Guid = Guid.NewGuid(),
                     Email = userInfo.Email!,
                     Username = userInfo.Name,
-                    ImageFullPath = userInfo.Picture!.ToString(),
+                    ImageFullPath = userInfo.Picture?.ToString(),
                     Role = (int)Constants.Role.Regular
                 };
 

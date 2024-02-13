@@ -5,5 +5,5 @@ namespace Recipes.Microservice.Queries.Recipes.GetRecommendedRecipes;
 
 public class GetRecommendedRecipesQuery : IRequest<List<GetRecommendedRecipeDto>>
 {
-    [Required] public required List<long> PickedIngredients { get; set; }
+    public List<long> PickedIngredients { get; set; }
 }

@@ -41,7 +41,6 @@ C:\Users\Andrija\microservices.cookup\Gateway.CookUp\bin\Debug\net7.0\Swashbuckl
 C:\Users\Andrija\microservices.cookup\Gateway.CookUp\bin\Debug\net7.0\Swashbuckle.AspNetCore.SwaggerUI.dll
 C:\Users\Andrija\microservices.cookup\Gateway.CookUp\bin\Debug\net7.0\ocelot.json
 C:\Users\Andrija\microservices.cookup\Gateway.CookUp\obj\Debug\net7.0\Gateway.CookUp.sourcelink.json
-C:\Users\Andrija\microservices.cookup\Gateway.CookUp\bin\Debug\net7.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
 C:\Users\Andrija\microservices.cookup\Gateway.CookUp\bin\Debug\net7.0\RabbitMQ.Client.dll
 C:\Users\Andrija\microservices.cookup\Gateway.CookUp\bin\Debug\net7.0\System.IO.Pipelines.dll
 C:\Users\Andrija\microservices.cookup\Gateway.CookUp\bin\Debug\net7.0\System.Threading.Channels.dll

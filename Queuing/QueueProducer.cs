@@ -45,7 +45,7 @@ public class QueueProducer<TQueueMessage> : IQueueProducer<TQueueMessage> where 
             {
                 Persistent = true,
                 Type = _queueName,
-                Expiration = message.TimeToLive.TotalMicroseconds.ToString(CultureInfo.InvariantCulture)
+                Expiration = message.TimeToLive.TotalMilliseconds.ToString(CultureInfo.InvariantCulture)
             }, serializedMessage);
         }
         catch (Exception ex)
