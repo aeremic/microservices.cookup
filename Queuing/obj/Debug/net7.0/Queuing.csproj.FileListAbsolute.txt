@@ -13,3 +13,7 @@ C:\Users\Andrija\microservices.cookup\Queuing\obj\Debug\net7.0\Queuing.dll
 C:\Users\Andrija\microservices.cookup\Queuing\obj\Debug\net7.0\refint\Queuing.dll
 C:\Users\Andrija\microservices.cookup\Queuing\obj\Debug\net7.0\Queuing.pdb
 C:\Users\Andrija\microservices.cookup\Queuing\obj\Debug\net7.0\ref\Queuing.dll
+C:\Users\Andrija\microservices.cookup\Queuing\bin\Debug\net7.0\Microsoft.Extensions.Hosting.Abstractions.dll
+C:\Users\Andrija\microservices.cookup\Queuing\bin\Debug\net7.0\Microsoft.Extensions.Configuration.Abstractions.dll
+C:\Users\Andrija\microservices.cookup\Queuing\bin\Debug\net7.0\Microsoft.Extensions.FileProviders.Abstractions.dll
+C:\Users\Andrija\microservices.cookup\Queuing\bin\Debug\net7.0\Microsoft.Extensions.Primitives.dll

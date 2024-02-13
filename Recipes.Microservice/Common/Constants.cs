@@ -16,4 +16,10 @@ public static class Constants
         public static readonly string HostingAddress = "HostingAddress";
         public static readonly string Value = "Value";
     }
+
+    public enum UserChangeTypes : int
+    {
+        Added,
+        Updated,
+    }
 }

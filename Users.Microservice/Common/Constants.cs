@@ -39,4 +39,10 @@ public static class Constants
     {
         public const string ApplicationXWwwFormUrlencoded = "application/x-www-form-urlencoded";
     }
+    
+    public enum UserChangeTypes : int
+    {
+        Added,
+        Updated,
+    }
 }

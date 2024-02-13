@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using NLog;
 using NLog.Web;
+using Queuing.Extensions;
+using Queuing.Implementation;
 using Users.Microservice.Common;
 using Users.Microservice.Common.ExternalServices.GoogleGate;
 using Users.Microservice.Common.Services;
@@ -51,6 +53,15 @@ try
     builder.Services.AddSwaggerGen();
     builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
+    builder.Services.AddQueueing(new QueueingConfigurationSettings
+    {
+        Username = "guest",
+        Password = "guest",
+        Hostname = "localhost",
+        Port = 5672,
+        ConsumerConcurrency = 5
+    });
+    
     var app = builder.Build();
 
     // Configure the HTTP request pipeline.

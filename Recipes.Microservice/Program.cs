@@ -11,6 +11,8 @@ using Recipes.Microservice.Common;
 using Recipes.Microservice.Common.Services;
 using Recipes.Microservice.Domain.Interfaces;
 using Recipes.Microservice.Infrastructure;
+using Recipes.Microservice.Queueing.Consumers;
+using Recipes.Microservice.Queueing.Models;
 
 var logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 try
@@ -60,6 +62,8 @@ try
         Port = 5672,
         ConsumerConcurrency = 5
     });
+    
+    builder.Services.AddQueueMessageConsumer<UserChangeQueueMessageConsumer, UserChangeQueueMessage>();
     
     var app = builder.Build();
 

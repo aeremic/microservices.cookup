@@ -1,10 +1,12 @@
 ﻿using MediatR;
 using NLog;
+using Queuing.Interfaces;
 using Users.Microservice.Common;
 using Users.Microservice.Common.ExternalServices.GoogleGate;
 using Users.Microservice.Common.Services;
 using Users.Microservice.Domain.Interfaces;
 using Users.Microservice.Domain.Models;
+using Users.Microservice.Queueing.Models;
 
 namespace Users.Microservice.Commands.Auth.ExternalLogin;
 
@@ -16,6 +18,7 @@ public class ExternalLoginCommandHandler : IRequestHandler<ExternalLoginCommand,
     private readonly IUserRepository _repository;
     private readonly OAuthProxy _oAuthProxy;
     private readonly JwtHandler _jwtHandler;
+    private readonly IQueueProducer<UserChangeQueueMessage> _queueProducer;
     private readonly Logger _logger;
 
     #endregion
@@ -23,13 +26,15 @@ public class ExternalLoginCommandHandler : IRequestHandler<ExternalLoginCommand,
     #region Constructors
 
     public ExternalLoginCommandHandler(IConfiguration configuration, IUserRepository repository, JwtHandler jwtHandler,
-        OAuthProxy oAuthProxy)
+        OAuthProxy oAuthProxy, IQueueProducer<UserChangeQueueMessage> queueProducer)
     {
         _googleAuthConfigurationSection =
             configuration.GetSection(Constants.AuthConfigurationSectionKeys.AuthenticationGoogle);
         _repository = repository;
         _oAuthProxy = oAuthProxy;
         _jwtHandler = jwtHandler;
+        _queueProducer = queueProducer;
+
         _logger = LogManager.GetCurrentClassLogger();
     }
 
@@ -94,9 +99,16 @@ public class ExternalLoginCommandHandler : IRequestHandler<ExternalLoginCommand,
                     ImageFullPath = userInfo.Picture!.ToString(),
                     Role = (int)Constants.Role.Regular
                 };
-                
+
                 await _repository.AddAsync(user, cancellationToken);
-                
+
+                _queueProducer.PublishMessage(new UserChangeQueueMessage
+                {
+                    UserGuid = user.Guid,
+                    ChangeType = (int)Constants.UserChangeTypes.Added,
+                    TimeToLive = TimeSpan.FromDays(1),
+                });
+
                 result.IsNewUser = true;
             }
 
