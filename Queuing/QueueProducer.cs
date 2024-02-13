@@ -10,7 +10,7 @@ namespace Queuing;
 
 public class QueueProducer<TQueueMessage> : IQueueProducer<TQueueMessage> where TQueueMessage : IQueueMessage
 {
-    private readonly IChannel _channel;
+    private readonly IModel _channel;
     private readonly string _queueName;
     private readonly ILogger<QueueProducer<TQueueMessage>> _logger;
 
@@ -41,12 +41,12 @@ public class QueueProducer<TQueueMessage> : IQueueProducer<TQueueMessage> where 
             _logger.LogInformation($"Publishing message to ${_queueName} queue.");
 
             var serializedMessage = SerializeMessage(message);
-            _channel.BasicPublish(_queueName, _queueName, new BasicProperties
-            {
-                Persistent = true,
-                Type = _queueName,
-                Expiration = message.TimeToLive.TotalMilliseconds.ToString(CultureInfo.InvariantCulture)
-            }, serializedMessage);
+            var properties = _channel.CreateBasicProperties();
+            properties.Persistent = true;
+            properties.Type = _queueName;
+            properties.Expiration = message.TimeToLive.TotalMilliseconds.ToString(CultureInfo.InvariantCulture);
+
+            _channel.BasicPublish(_queueName, _queueName, properties, serializedMessage);
         }
         catch (Exception ex)
         {

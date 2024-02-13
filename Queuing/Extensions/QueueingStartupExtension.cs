@@ -13,7 +13,7 @@ public static class QueueingStartupExtension
         services.AddSingleton(settings);
 
         // Establish connection as a singleton.
-        services.AddSingleton<ConnectionFactory>(_ =>
+        services.AddSingleton<IAsyncConnectionFactory>(_ =>
         {
             var factory = new ConnectionFactory
             {

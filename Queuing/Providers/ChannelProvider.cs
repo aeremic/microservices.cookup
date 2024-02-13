@@ -6,7 +6,7 @@ namespace Queuing.Providers;
 
 internal sealed class ChannelProvider : IDisposable, IChannelProvider
 {
-    private IChannel? _channel;
+    private IModel? _channel;
 
     private readonly IConnectionProvider _connectionProvider;
     private readonly ILogger<ChannelProvider> _logger;
@@ -36,11 +36,11 @@ internal sealed class ChannelProvider : IDisposable, IChannelProvider
         }
     }
 
-    public IChannel GetChannel()
+    public IModel GetChannel()
     {
         if (_channel is not { IsOpen: true })
         {
-            _channel = _connectionProvider.GetConnection().CreateChannel();
+            _channel = _connectionProvider.GetConnection().CreateModel();
             _logger.LogDebug("Opening connection.");
         }
 

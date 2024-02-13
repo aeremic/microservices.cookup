@@ -4,5 +4,5 @@ namespace Queuing.Interfaces;
 
 public interface IChannelProvider
 {
-    IChannel GetChannel();
+    IModel GetChannel();
 }

@@ -18,7 +18,7 @@ public class
     private readonly IServiceProvider _serviceProvider;
     private readonly ILogger<QueueConsumerHandler<TMessageConsumer, TQueueMessage>> _logger;
 
-    private IChannel _consumerRegistrationChannel;
+    private IModel _consumerRegistrationChannel;
     private string _consumerSubscriptionTag;
 
     public QueueConsumerHandler(IServiceProvider serviceProvider,
@@ -76,10 +76,10 @@ public class
     {
         _logger.LogInformation($"Received message on {_queueName}.");
 
-        var consumingChannel = ((AsyncEventingBasicConsumer)channel).Channel;
+        var consumingChannel = ((AsyncEventingBasicConsumer)channel).Model;
         var consumerScope = _serviceProvider.CreateScope();
 
-        IChannel? producingChannel = null; // Producing channel for commiting transactions.
+        IModel? producingChannel = null; // Producing channel for commiting transactions.
         try
         {
             producingChannel = consumerScope.ServiceProvider.GetRequiredService<IChannelProvider>().GetChannel();
@@ -115,7 +115,7 @@ public class
         }
     }
 
-    private void RejectMessage(ulong deliveryTag, IChannel consumingChannel, IChannel? producingChannel)
+    private void RejectMessage(ulong deliveryTag, IModel consumingChannel, IModel? producingChannel)
     {
         try
         {

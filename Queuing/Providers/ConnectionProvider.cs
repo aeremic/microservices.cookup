@@ -8,10 +8,10 @@ internal sealed class ConnectionProvider : IDisposable, IConnectionProvider
 {
     private IConnection? _connection;
 
-    private readonly IConnectionFactory _connectionFactory;
+    private readonly IAsyncConnectionFactory _connectionFactory;
     private readonly ILogger<ConnectionProvider> _logger;
 
-    public ConnectionProvider(IConnectionFactory connectionFactory, ILogger<ConnectionProvider> logger)
+    public ConnectionProvider(IAsyncConnectionFactory connectionFactory, ILogger<ConnectionProvider> logger)
     {
         _connectionFactory = connectionFactory;
         _logger = logger;

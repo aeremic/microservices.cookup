@@ -7,7 +7,7 @@ namespace Queuing.Providers;
 internal class QueueChannelProvider<TQueueMessage> : IQueueChannelProvider<TQueueMessage>
     where TQueueMessage : IQueueMessage
 {
-    private IChannel? _channel;
+    private IModel? _channel;
 
     private readonly IChannelProvider _channelProvider;
     private readonly string _queueName;
@@ -18,7 +18,7 @@ internal class QueueChannelProvider<TQueueMessage> : IQueueChannelProvider<TQueu
         _queueName = typeof(TQueueMessage).Name;
     }
 
-    public IChannel GetChannel()
+    public IModel GetChannel()
     {
         _channel = _channelProvider.GetChannel();
         DeclareQueues();
