@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Queuing.Implementation;
 using Queuing.Interfaces;
+using Queuing.Providers;
 using RabbitMQ.Client;
 
 namespace Queuing.Extensions;
@@ -11,7 +12,8 @@ public static class QueueingStartupExtension
     {
         services.AddSingleton(settings);
 
-        services.AddSingleton<ConnectionFactory>(provider =>
+        // Establish connection as a singleton.
+        services.AddSingleton<ConnectionFactory>(_ =>
         {
             var factory = new ConnectionFactory
             {
@@ -29,11 +31,27 @@ public static class QueueingStartupExtension
             return factory;
         });
 
+        // Register connection provider.
         services.AddSingleton<IConnectionProvider, ConnectionProvider>();
 
+        // Register channel provider.
         services.AddScoped<IChannelProvider, ChannelProvider>();
         services.AddScoped(typeof(IQueueChannelProvider<>), typeof(QueueChannelProvider<>));
 
+        // Register producer.
         services.AddScoped(typeof(IQueueProducer<>), typeof(QueueProducer<>));
+    }
+
+    public static void AddQueueMessageConsumer<TMessageConsumer, TQueueMessage>(this IServiceCollection services)
+        where TMessageConsumer : IQueueConsumer<TQueueMessage> where TQueueMessage : class, IQueueMessage
+    {
+        // Register consumer.
+        services.AddScoped(typeof(TMessageConsumer));
+        services
+            .AddScoped<IQueueConsumerHandler<TMessageConsumer, TQueueMessage>,
+                QueueConsumerHandler<TMessageConsumer, TQueueMessage>>();
+
+        // Register hosted service for queue listening.
+        services.AddHostedService<QueueConsumerRegistrationService<TMessageConsumer, TQueueMessage>>();
     }
 }

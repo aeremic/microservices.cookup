@@ -2,7 +2,7 @@
 using Queuing.Interfaces;
 using RabbitMQ.Client;
 
-namespace Queuing.Implementation;
+namespace Queuing.Providers;
 
 internal class QueueChannelProvider<TQueueMessage> : IQueueChannelProvider<TQueueMessage>
     where TQueueMessage : IQueueMessage
@@ -35,7 +35,7 @@ internal class QueueChannelProvider<TQueueMessage> : IQueueChannelProvider<TQueu
 
         var deadLetterQueueName = $"{_queueName}{QueueingConstants.DeadLetterAddition}";
 
-        _channel.ExchangeDeclare(deadLetterQueueName, ExchangeType.Direct);
+        _channel.ExchangeDeclare(deadLetterQueueName, ExchangeType.Direct); // Declare mailbox.
         _channel.QueueDeclare(deadLetterQueueName, true, false, false,
             new Dictionary<string, object>()
             {
@@ -44,7 +44,7 @@ internal class QueueChannelProvider<TQueueMessage> : IQueueChannelProvider<TQueu
             });
         _channel.QueueBind(deadLetterQueueName, deadLetterQueueName, deadLetterQueueName, null);
 
-        _channel.ExchangeDeclare(_queueName, ExchangeType.Direct);
+        _channel.ExchangeDeclare(_queueName, ExchangeType.Direct); // Declare mailbox.
         _channel.QueueDeclare(_queueName, true, false, false,
             new Dictionary<string, object>()
             {

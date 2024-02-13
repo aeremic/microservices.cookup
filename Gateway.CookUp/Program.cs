@@ -26,8 +26,6 @@ builder.Services.AddCors(options =>
     });
 });
 
-var temp = builder.Configuration.GetSection("Routes");
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

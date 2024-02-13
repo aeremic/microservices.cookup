@@ -1,13 +1,12 @@
 ﻿using System.Globalization;
 using System.Text;
-using System.Text.Json.Nodes;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Queuing.Common;
 using Queuing.Interfaces;
 using RabbitMQ.Client;
 
-namespace Queuing.Implementation;
+namespace Queuing;
 
 public class QueueProducer<TQueueMessage> : IQueueProducer<TQueueMessage> where TQueueMessage : IQueueMessage
 {

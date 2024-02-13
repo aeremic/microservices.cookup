@@ -2,7 +2,7 @@
 using Queuing.Interfaces;
 using RabbitMQ.Client;
 
-namespace Queuing.Implementation;
+namespace Queuing.Providers;
 
 internal sealed class ConnectionProvider : IDisposable, IConnectionProvider
 {
