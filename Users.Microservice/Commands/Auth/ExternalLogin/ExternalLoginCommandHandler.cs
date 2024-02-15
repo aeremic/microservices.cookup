@@ -105,6 +105,8 @@ public class ExternalLoginCommandHandler : IRequestHandler<ExternalLoginCommand,
                 _queueProducer.PublishMessage(new UserChangeQueueMessage
                 {
                     UserGuid = user.Guid,
+                    Username = user.Username,
+                    ImageFullPath = user.ImageFullPath,
                     ChangeType = (int)Constants.UserChangeTypes.Added,
                     TimeToLive = TimeSpan.FromDays(1),
                 });

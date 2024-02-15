@@ -34,7 +34,7 @@ public class QueueProducer<TQueueMessage> : IQueueProducer<TQueueMessage> where 
             throw new QueuingException($"{nameof(message.TimeToLive)} cannot be less or equal than zero.");
         }
 
-        message.MessageId = new Guid();
+        message.MessageId = Guid.NewGuid();
 
         try
         {

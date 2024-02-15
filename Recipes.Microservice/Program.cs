@@ -47,6 +47,7 @@ try
 
     builder.Services.AddScoped<IRecipeRepository, RecipeRepository>();
     builder.Services.AddScoped<IIngredientRepository, IngredientRepository>();
+    builder.Services.AddScoped<IUserRepository, UserRepository>();
     builder.Services.AddScoped<FileService>();
     
     builder.Services.AddControllers();

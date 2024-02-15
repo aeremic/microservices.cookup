@@ -32,7 +32,7 @@ public class
         _fileService.Handler =
             new LocalFileServiceHandler(
                 configuration.GetSection(Constants.HostingAddressConfigurationSectionKeys.HostingAddress));
-        _logger = LogManager.GetCurrentClassLogger();
+        _logger = LogManager.GetCurrentClassLogger(); // TODO: Change this to be injectable!
     }
 
     #endregion
