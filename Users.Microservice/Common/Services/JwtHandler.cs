@@ -2,11 +2,12 @@
 using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
+using Users.Microservice.Common.Interfaces;
 using Users.Microservice.Domain.Models;
 
 namespace Users.Microservice.Common.Services;
 
-public class JwtHandler
+public class JwtHandler : IJwtHandler
 {
     #region Properties
 

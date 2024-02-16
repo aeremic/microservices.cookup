@@ -9,6 +9,7 @@ using Queuing.Extensions;
 using Queuing.Implementation;
 using Users.Microservice.Common;
 using Users.Microservice.Common.ExternalServices.GoogleGate;
+using Users.Microservice.Common.Interfaces;
 using Users.Microservice.Common.Services;
 using Users.Microservice.Domain.Interfaces;
 using Users.Microservice.Infrastructure;
@@ -25,8 +26,8 @@ try
         options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
     var jwtSection = builder.Configuration.GetSection(Constants.JwtConfigurationSectionKeys.Jwt);
-    builder.Services.AddScoped<JwtHandler>();
-    builder.Services.AddScoped<OAuthProxy>();
+    builder.Services.AddScoped<IJwtHandler, JwtHandler>();
+    builder.Services.AddScoped<IOAuthProxy, OAuthProxy>();
     builder.Services.AddAuthentication(options =>
     {
         options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -73,6 +74,7 @@ try
 
     app.UseHttpsRedirection();
 
+    app.UseAuthentication();
     app.UseAuthorization();
 
     app.MapControllers();

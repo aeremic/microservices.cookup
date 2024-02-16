@@ -1,6 +1,4 @@
-﻿using System.Net.Http.Headers;
-
-namespace Users.Microservice.Common.ExternalServices;
+﻿namespace Users.Microservice.Common.ExternalServices.HttpProxy;
 
 public class ProxyBase
 {
