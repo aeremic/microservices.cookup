@@ -49,6 +49,8 @@ try
 
     builder.Services.AddScoped<IUserRepository, UserRepository>();
     
+    builder.Services.AddScoped<ILoggerService, LoggerService>();
+    
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();

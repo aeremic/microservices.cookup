@@ -1,10 +1,9 @@
-﻿using NLog;
-using Queuing.Interfaces;
+﻿using Queuing.Interfaces;
 using Recipes.Microservice.Common;
+using Recipes.Microservice.Common.Interfaces;
 using Recipes.Microservice.Domain.Interfaces;
 using Recipes.Microservice.Domain.Models;
 using Recipes.Microservice.Queueing.Models;
-using ILogger = NLog.ILogger;
 
 namespace Recipes.Microservice.Queueing.Consumers;
 
@@ -13,15 +12,17 @@ public class UserChangeQueueMessageConsumer : IQueueConsumer<UserChangeQueueMess
     #region Properties
 
     private readonly IUserRepository _repository;
-    private readonly ILogger _logger = LogManager.GetCurrentClassLogger(); // TODO: Change this to be injectable!
+    private readonly ILoggerService _logger;
 
     #endregion
 
     #region Constructors
 
-    public UserChangeQueueMessageConsumer(IUserRepository repository)
+    public UserChangeQueueMessageConsumer(IUserRepository repository, ILoggerService logger)
     {
         _repository = repository;
+
+        _logger = logger;
     }
 
     #endregion

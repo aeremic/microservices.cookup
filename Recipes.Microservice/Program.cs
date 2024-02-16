@@ -8,7 +8,9 @@ using NLog.Web;
 using Queuing.Extensions;
 using Queuing.Implementation;
 using Recipes.Microservice.Common;
+using Recipes.Microservice.Common.Interfaces;
 using Recipes.Microservice.Common.Services;
+using Recipes.Microservice.Common.Services.Storage;
 using Recipes.Microservice.Domain.Interfaces;
 using Recipes.Microservice.Infrastructure;
 using Recipes.Microservice.Queueing.Consumers;
@@ -48,7 +50,10 @@ try
     builder.Services.AddScoped<IRecipeRepository, RecipeRepository>();
     builder.Services.AddScoped<IIngredientRepository, IngredientRepository>();
     builder.Services.AddScoped<IUserRepository, UserRepository>();
-    builder.Services.AddScoped<FileService>();
+    
+    builder.Services.AddScoped<ILoggerService, LoggerService>();
+    builder.Services.AddScoped<IFileService, FileService>();
+    builder.Services.AddScoped<IFileServiceHandler, LocalFileServiceHandler>();
     
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();

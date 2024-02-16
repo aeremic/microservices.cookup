@@ -1,13 +1,10 @@
 ﻿using System.Text.Json;
 using AutoMapper;
 using MediatR;
-using NLog;
-using Recipes.Microservice.Common;
+using Recipes.Microservice.Common.Interfaces;
 using Recipes.Microservice.Common.Models.DTOs;
 using Recipes.Microservice.Common.Models.DTOs.Serializations;
-using Recipes.Microservice.Common.Services;
 using Recipes.Microservice.Domain.Interfaces;
-using ILogger = NLog.ILogger;
 
 namespace Recipes.Microservice.Queries.Recipes.GetRecipe;
 
@@ -17,24 +14,21 @@ public class GetRecipeQueryHandler : IRequestHandler<GetRecipeQuery, RecipeDto?>
 
     private readonly IRecipeRepository _repository;
     private readonly IMapper _mapper;
-    private readonly FileService _fileService;
-    private readonly ILogger _logger;
+    private readonly IFileService _fileService;
+    private readonly ILoggerService _logger;
 
     #endregion
 
     #region Constructors
 
-    public GetRecipeQueryHandler(IRecipeRepository repository, IMapper mapper, FileService fileService,
-        IConfiguration configuration)
+    public GetRecipeQueryHandler(IRecipeRepository repository, IMapper mapper, IFileService fileService,
+        ILoggerService logger)
     {
         _repository = repository;
         _mapper = mapper;
         _fileService = fileService;
 
-        _fileService.Handler =
-            new LocalFileServiceHandler(
-                configuration.GetSection(Constants.HostingAddressConfigurationSectionKeys.HostingAddress));
-        _logger = LogManager.GetCurrentClassLogger();
+        _logger = logger;
     }
 
     #endregion
@@ -47,7 +41,7 @@ public class GetRecipeQueryHandler : IRequestHandler<GetRecipeQuery, RecipeDto?>
         try
         {
             var recipe = await _repository.GetByIdWithIngredientsAsync(request.Id, cancellationToken);
-                
+
             if (recipe != null)
             {
                 result = _mapper.Map<RecipeDto>(recipe);

@@ -1,10 +1,7 @@
 ﻿using MediatR;
-using NLog;
 using Queuing.Interfaces;
 using Users.Microservice.Common;
-using Users.Microservice.Common.ExternalServices.GoogleGate;
 using Users.Microservice.Common.Interfaces;
-using Users.Microservice.Common.Services;
 using Users.Microservice.Domain.Interfaces;
 using Users.Microservice.Domain.Models;
 using Users.Microservice.Queueing.Models;
@@ -20,23 +17,24 @@ public class ExternalLoginCommandHandler : IRequestHandler<ExternalLoginCommand,
     private readonly IOAuthProxy _oAuthProxy;
     private readonly IJwtHandler _jwtHandler;
     private readonly IQueueProducer<UserChangeQueueMessage> _queueProducer;
-    private readonly Logger _logger;
+    private readonly ILoggerService _logger;
 
     #endregion
 
     #region Constructors
 
     public ExternalLoginCommandHandler(IConfiguration configuration, IUserRepository repository, IJwtHandler jwtHandler,
-        IOAuthProxy oAuthProxy, IQueueProducer<UserChangeQueueMessage> queueProducer)
+        IOAuthProxy oAuthProxy, IQueueProducer<UserChangeQueueMessage> queueProducer, ILoggerService logger)
     {
         _googleAuthConfigurationSection =
             configuration.GetSection(Constants.AuthConfigurationSectionKeys.AuthenticationGoogle);
+        
         _repository = repository;
         _oAuthProxy = oAuthProxy;
         _jwtHandler = jwtHandler;
         _queueProducer = queueProducer;
 
-        _logger = LogManager.GetCurrentClassLogger();
+        _logger = logger;
     }
 
     #endregion

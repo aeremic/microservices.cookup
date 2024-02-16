@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
-using NLog;
+using Users.Microservice.Common.Interfaces;
 using Users.Microservice.Common.Models.DTOs;
 using Users.Microservice.Domain.Interfaces;
 
@@ -12,17 +12,18 @@ public class GetUserDataQueryHandler : IRequestHandler<GetUserDataQuery, UserDat
 
     private readonly IUserRepository _repository;
     private readonly IMapper _mapper;
-    private readonly Logger _logger;
+    private readonly ILoggerService _logger;
 
     #endregion
 
     #region Constructors
 
-    public GetUserDataQueryHandler(IUserRepository repository, IMapper mapper)
+    public GetUserDataQueryHandler(IUserRepository repository, IMapper mapper, ILoggerService logger)
     {
         _repository = repository;
         _mapper = mapper;
-        _logger = LogManager.GetCurrentClassLogger();
+        
+        _logger = logger;
     }
 
     #endregion

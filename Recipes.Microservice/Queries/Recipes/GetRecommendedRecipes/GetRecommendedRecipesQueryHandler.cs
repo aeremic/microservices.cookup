@@ -1,10 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
-using NLog;
-using Recipes.Microservice.Common;
-using Recipes.Microservice.Common.Services;
+using Recipes.Microservice.Common.Interfaces;
 using Recipes.Microservice.Domain.Interfaces;
-using ILogger = NLog.ILogger;
 
 namespace Recipes.Microservice.Queries.Recipes.GetRecommendedRecipes;
 
@@ -15,24 +12,21 @@ public class
 
     private readonly IRecipeRepository _repository;
     private readonly IMapper _mapper;
-    private readonly FileService _fileService;
-    private readonly ILogger _logger;
+    private readonly IFileService _fileService;
+    private readonly ILoggerService _logger;
 
     #endregion
 
     #region Constructors
 
-    public GetRecommendedRecipesQueryHandler(IRecipeRepository repository, IMapper mapper, FileService fileService,
-        IConfiguration configuration)
+    public GetRecommendedRecipesQueryHandler(IRecipeRepository repository, IMapper mapper, IFileService fileService,
+        IConfiguration configuration, ILoggerService logger)
     {
         _repository = repository;
         _mapper = mapper;
         _fileService = fileService;
 
-        _fileService.Handler =
-            new LocalFileServiceHandler(
-                configuration.GetSection(Constants.HostingAddressConfigurationSectionKeys.HostingAddress));
-        _logger = LogManager.GetCurrentClassLogger(); // TODO: Change this to be injectable!
+        _logger = logger;
     }
 
     #endregion

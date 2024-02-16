@@ -1,6 +1,6 @@
 ﻿using Recipes.Microservice.Common.Interfaces;
 
-namespace Recipes.Microservice.Common.Services;
+namespace Recipes.Microservice.Common.Services.Storage;
 
 public class LocalFileServiceHandler : IFileServiceHandler
 {
@@ -8,13 +8,12 @@ public class LocalFileServiceHandler : IFileServiceHandler
     
     #region Constructors
 
-    public LocalFileServiceHandler()
+    public LocalFileServiceHandler(IConfiguration configuration)
     {
-    }
-    
-    public LocalFileServiceHandler(IConfiguration configurationSection)
-    {
-        _hostingAddressValue = configurationSection.GetSection(
+        var hostingAddressSection = configuration.GetSection(
+            Constants.HostingAddressConfigurationSectionKeys.HostingAddress);
+        
+        _hostingAddressValue = hostingAddressSection.GetSection(
             Constants.HostingAddressConfigurationSectionKeys.Value).Value ?? string.Empty;
     }
 

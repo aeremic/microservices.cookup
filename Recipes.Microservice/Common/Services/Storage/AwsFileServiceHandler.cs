@@ -1,6 +1,6 @@
 ﻿using Recipes.Microservice.Common.Interfaces;
 
-namespace Recipes.Microservice.Common.Services;
+namespace Recipes.Microservice.Common.Services.Storage;
 
 public class AwsFileServiceHandler : IFileServiceHandler
 {
