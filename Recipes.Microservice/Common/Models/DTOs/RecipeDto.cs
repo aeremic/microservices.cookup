@@ -1,10 +1,12 @@
-﻿using Recipes.Microservice.Common.Models.DTOs.Serializations;
+﻿using System.ComponentModel.DataAnnotations;
+using Recipes.Microservice.Common.Models.DTOs.Serializations;
 
 namespace Recipes.Microservice.Common.Models.DTOs;
 
 public sealed class RecipeDto
 {
-    public required long Id { get; set; }
+    long Id { get; set; }
+    
     public string? Name { get; set; }
     public string? Description { get; set; }
     public TimeSpan? TimeNeeded { get; set; }

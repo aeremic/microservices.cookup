@@ -5,8 +5,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using NLog;
 using NLog.Web;
+using Queuing.Extensions;
+using Queuing.Implementation;
 using Users.Microservice.Common;
 using Users.Microservice.Common.ExternalServices.GoogleGate;
+using Users.Microservice.Common.Interfaces;
 using Users.Microservice.Common.Services;
 using Users.Microservice.Domain.Interfaces;
 using Users.Microservice.Infrastructure;
@@ -23,8 +26,8 @@ try
         options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
     var jwtSection = builder.Configuration.GetSection(Constants.JwtConfigurationSectionKeys.Jwt);
-    builder.Services.AddScoped<JwtHandler>();
-    builder.Services.AddScoped<OAuthProxy>();
+    builder.Services.AddScoped<IJwtHandler, JwtHandler>();
+    builder.Services.AddScoped<IOAuthProxy, OAuthProxy>();
     builder.Services.AddAuthentication(options =>
     {
         options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -46,11 +49,22 @@ try
 
     builder.Services.AddScoped<IUserRepository, UserRepository>();
     
+    builder.Services.AddScoped<ILoggerService, LoggerService>();
+    
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
     builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
+    builder.Services.AddQueueing(new QueueingConfigurationSettings
+    {
+        Username = "guest",
+        Password = "guest",
+        Hostname = "localhost",
+        Port = 5672,
+        ConsumerConcurrency = 5
+    });
+    
     var app = builder.Build();
 
     // Configure the HTTP request pipeline.
@@ -62,6 +76,7 @@ try
 
     app.UseHttpsRedirection();
 
+    app.UseAuthentication();
     app.UseAuthorization();
 
     app.MapControllers();

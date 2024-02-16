@@ -6,5 +6,5 @@ namespace Recipes.Microservice.Queries.Recipes.GetRecipe;
 
 public class GetRecipeQuery  : IRequest<RecipeDto>
 {
-    [Required] public long Id { get; set; }
+    public long Id { get; set; }
 }

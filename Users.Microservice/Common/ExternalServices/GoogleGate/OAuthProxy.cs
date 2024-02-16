@@ -1,10 +1,12 @@
 ﻿using System.Text;
 using Newtonsoft.Json;
 using Users.Microservice.Common.ExternalServices.GoogleGate.GateModels;
+using Users.Microservice.Common.ExternalServices.HttpProxy;
+using Users.Microservice.Common.Interfaces;
 
 namespace Users.Microservice.Common.ExternalServices.GoogleGate;
 
-public class OAuthProxy : ProxyBase
+public class OAuthProxy : ProxyBase, IOAuthProxy
 {
     #region Public methods
 

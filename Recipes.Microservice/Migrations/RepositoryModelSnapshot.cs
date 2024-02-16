@@ -99,6 +99,28 @@ namespace Recipes.Microservice.Migrations
                     b.ToTable("Recipes");
                 });
 
+            modelBuilder.Entity("Recipes.Microservice.Domain.Models.User", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<Guid>("Guid")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ImageFullPath")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Username")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
+                });
+
             modelBuilder.Entity("IngredientRecipe", b =>
                 {
                     b.HasOne("Recipes.Microservice.Domain.Models.Ingredient", null)

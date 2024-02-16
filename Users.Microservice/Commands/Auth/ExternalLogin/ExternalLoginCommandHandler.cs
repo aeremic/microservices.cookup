@@ -1,10 +1,10 @@
 ﻿using MediatR;
-using NLog;
+using Queuing.Interfaces;
 using Users.Microservice.Common;
-using Users.Microservice.Common.ExternalServices.GoogleGate;
-using Users.Microservice.Common.Services;
+using Users.Microservice.Common.Interfaces;
 using Users.Microservice.Domain.Interfaces;
 using Users.Microservice.Domain.Models;
+using Users.Microservice.Queueing.Models;
 
 namespace Users.Microservice.Commands.Auth.ExternalLogin;
 
@@ -14,23 +14,27 @@ public class ExternalLoginCommandHandler : IRequestHandler<ExternalLoginCommand,
 
     private readonly IConfigurationSection _googleAuthConfigurationSection;
     private readonly IUserRepository _repository;
-    private readonly OAuthProxy _oAuthProxy;
-    private readonly JwtHandler _jwtHandler;
-    private readonly Logger _logger;
+    private readonly IOAuthProxy _oAuthProxy;
+    private readonly IJwtHandler _jwtHandler;
+    private readonly IQueueProducer<UserChangeQueueMessage> _queueProducer;
+    private readonly ILoggerService _logger;
 
     #endregion
 
     #region Constructors
 
-    public ExternalLoginCommandHandler(IConfiguration configuration, IUserRepository repository, JwtHandler jwtHandler,
-        OAuthProxy oAuthProxy)
+    public ExternalLoginCommandHandler(IConfiguration configuration, IUserRepository repository, IJwtHandler jwtHandler,
+        IOAuthProxy oAuthProxy, IQueueProducer<UserChangeQueueMessage> queueProducer, ILoggerService logger)
     {
         _googleAuthConfigurationSection =
             configuration.GetSection(Constants.AuthConfigurationSectionKeys.AuthenticationGoogle);
+        
         _repository = repository;
         _oAuthProxy = oAuthProxy;
         _jwtHandler = jwtHandler;
-        _logger = LogManager.GetCurrentClassLogger();
+        _queueProducer = queueProducer;
+
+        _logger = logger;
     }
 
     #endregion
@@ -91,12 +95,21 @@ public class ExternalLoginCommandHandler : IRequestHandler<ExternalLoginCommand,
                     Guid = Guid.NewGuid(),
                     Email = userInfo.Email!,
                     Username = userInfo.Name,
-                    ImageFullPath = userInfo.Picture!.ToString(),
+                    ImageFullPath = userInfo.Picture?.ToString(),
                     Role = (int)Constants.Role.Regular
                 };
-                
+
                 await _repository.AddAsync(user, cancellationToken);
-                
+
+                _queueProducer.PublishMessage(new UserChangeQueueMessage
+                {
+                    UserGuid = user.Guid,
+                    Username = user.Username,
+                    ImageFullPath = user.ImageFullPath,
+                    ChangeType = (int)Constants.UserChangeTypes.Added,
+                    TimeToLive = TimeSpan.FromDays(1),
+                });
+
                 result.IsNewUser = true;
             }
 

@@ -5,10 +5,16 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using NLog;
 using NLog.Web;
+using Queuing.Extensions;
+using Queuing.Implementation;
 using Recipes.Microservice.Common;
+using Recipes.Microservice.Common.Interfaces;
 using Recipes.Microservice.Common.Services;
+using Recipes.Microservice.Common.Services.Storage;
 using Recipes.Microservice.Domain.Interfaces;
 using Recipes.Microservice.Infrastructure;
+using Recipes.Microservice.Queueing.Consumers;
+using Recipes.Microservice.Queueing.Models;
 
 var logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 try
@@ -43,13 +49,28 @@ try
 
     builder.Services.AddScoped<IRecipeRepository, RecipeRepository>();
     builder.Services.AddScoped<IIngredientRepository, IngredientRepository>();
-    builder.Services.AddScoped<FileService>();
+    builder.Services.AddScoped<IUserRepository, UserRepository>();
+    
+    builder.Services.AddScoped<ILoggerService, LoggerService>();
+    builder.Services.AddScoped<IFileService, FileService>();
+    builder.Services.AddScoped<IFileServiceHandler, LocalFileServiceHandler>();
     
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
     builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
+    builder.Services.AddQueueing(new QueueingConfigurationSettings
+    {
+        Username = "guest",
+        Password = "guest",
+        Hostname = "localhost",
+        Port = 5672,
+        ConsumerConcurrency = 5
+    });
+    
+    builder.Services.AddQueueMessageConsumer<UserChangeQueueMessageConsumer, UserChangeQueueMessage>();
+    
     var app = builder.Build();
 
     // Configure the HTTP request pipeline.
@@ -61,8 +82,9 @@ try
 
     app.UseHttpsRedirection();
 
+    app.UseAuthentication();
     app.UseAuthorization();
-
+    
     app.MapControllers();
     app.UseStaticFiles();
 
