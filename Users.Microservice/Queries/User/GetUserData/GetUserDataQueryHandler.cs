@@ -35,7 +35,7 @@ public class GetUserDataQueryHandler : IRequestHandler<GetUserDataQuery, UserDat
         var result = new UserDataDto();
         try
         {
-            var user = await _repository.Get(request.Id, cancellationToken);
+            var user = await _repository.GetAsync(request.Id, cancellationToken);
 
             if (user is not null)
             {

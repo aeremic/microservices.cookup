@@ -10,7 +10,7 @@ public class UserRepository : Repository<User>, IUserRepository
     {
     }
 
-    public Task<User?> GetByEmail(string email, CancellationToken cancellationToken)
+    public Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken)
     {
         return ApplicationDbContext.Users
             .Where(user => user.Email == email)

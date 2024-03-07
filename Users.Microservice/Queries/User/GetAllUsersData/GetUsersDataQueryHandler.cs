@@ -35,7 +35,7 @@ public class GetUsersDataQueryHandler : IRequestHandler<GetUsersDataQuery, List<
         var result = new List<UserDataDto>();
         try
         {
-            var users = await _repository.Get(cancellationToken);
+            var users = await _repository.GetAsync(cancellationToken);
 
             result = _mapper.Map<List<UserDataDto>>(users);
         }

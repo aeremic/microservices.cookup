@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Users.Microservice.Commands.Users;
 using Users.Microservice.Common.Models;
 using Users.Microservice.Common.Models.DTOs;
 using Users.Microservice.Queries.User.GetAllUsersData;
@@ -49,6 +50,22 @@ public class UsersController : ControllerBase
     public async Task<ActionResult<List<UserDataDto>>> GetUsersData()
     {
         return await _sender.Send(new GetUsersDataQuery());
+    }
+
+    /// <summary>
+    /// Method for retrieving users data by email.
+    /// </summary>
+    /// <param name="getUserByEmailCommand"></param>
+    /// <returns>User data.</returns>
+    [HttpPost("[action]")]
+    public async Task<ActionResult<UserDataDto>> GetUserByEmail([FromBody] GetUserByEmailCommand? getUserByEmailCommand)
+    {
+        if (getUserByEmailCommand == null)
+        {
+            return BadRequest();
+        }
+
+        return await _sender.Send(getUserByEmailCommand);
     }
 
     #endregion

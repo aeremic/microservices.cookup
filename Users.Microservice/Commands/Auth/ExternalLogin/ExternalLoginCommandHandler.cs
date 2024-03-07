@@ -81,7 +81,7 @@ public class ExternalLoginCommandHandler : IRequestHandler<ExternalLoginCommand,
                 return result;
             }
 
-            var userInDb = await _repository.GetByEmail(userInfo.Email, cancellationToken);
+            var userInDb = await _repository.GetByEmailAsync(userInfo.Email, cancellationToken);
 
             User? user;
             if (userInDb != null)
