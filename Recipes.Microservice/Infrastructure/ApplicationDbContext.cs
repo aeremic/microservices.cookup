@@ -21,6 +21,8 @@ public class ApplicationDbContext : DbContext
     public DbSet<Ingredient> Ingredients { get; set; }
     
     public DbSet<User> Users { get; set; }
+    
+    public DbSet<UserRecipe> UserRecipes { get; set; }
 
     #endregion
 
@@ -28,12 +30,22 @@ public class ApplicationDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        // Configuration setup
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // Foreign keys setup
+        modelBuilder.Entity<UserRecipe>()
+            .HasKey(ur => new { ur.UserId, ur.RecipeId });
+
+        modelBuilder.Entity<UserRecipe>()
+            .HasOne(ur => ur.User)
+            .WithMany(u => u.UserRecipes)
+            .HasForeignKey(ur => ur.UserId);
+
+        modelBuilder.Entity<UserRecipe>()
+            .HasOne(ur => ur.Recipe)
+            .WithMany(r => r.UserRecipes)
+            .HasForeignKey(ur => ur.RecipeId);
     }
 
     #endregion

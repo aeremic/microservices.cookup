@@ -87,6 +87,11 @@ public class ExternalLoginCommandHandler : IRequestHandler<ExternalLoginCommand,
             if (userInDb != null)
             {
                 user = userInDb;
+
+                user.Username = userInfo.Name;
+                user.ImageFullPath = userInfo.Picture?.ToString();
+
+                await _repository.UpdateAsync(user, cancellationToken);
             }
             else
             {

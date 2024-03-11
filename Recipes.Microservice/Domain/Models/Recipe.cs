@@ -15,4 +15,5 @@ public class Recipe : Entity
     public bool IsUserCreated { get; set; }
     
     public virtual ICollection<Ingredient>? Ingredients { get; set; }
+    public virtual ICollection<UserRecipe>? UserRecipes { get; set; }
 }

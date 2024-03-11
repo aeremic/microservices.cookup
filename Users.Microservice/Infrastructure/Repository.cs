@@ -19,14 +19,14 @@ public abstract class Repository<TEntity> where TEntity : Entity
         return Task.FromResult(ApplicationDbContext.SaveChangesAsync(cancellationToken));
     }
 
-    public Task Update(TEntity entity, CancellationToken cancellationToken)
+    public Task UpdateAsync(TEntity entity, CancellationToken cancellationToken)
     {
         ApplicationDbContext.Set<TEntity>().Update(entity);
         
         return Task.FromResult(ApplicationDbContext.SaveChangesAsync(cancellationToken));
     }
 
-    public Task Remove(TEntity entity, CancellationToken cancellationToken)
+    public Task RemoveAsync(TEntity entity, CancellationToken cancellationToken)
     {
         ApplicationDbContext.Set<TEntity>().Remove(entity);
         
