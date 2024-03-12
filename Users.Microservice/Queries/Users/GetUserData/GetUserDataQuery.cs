@@ -1,8 +1,7 @@
 ﻿using MediatR;
-using Users.Microservice.Common.Models;
 using Users.Microservice.Common.Models.DTOs;
 
-namespace Users.Microservice.Queries.User.GetUserData;
+namespace Users.Microservice.Queries.Users.GetUserData;
 
 public class GetUserDataQuery : IRequest<UserDataDto>
 {

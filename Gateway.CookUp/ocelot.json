@@ -40,7 +40,7 @@
       "UpstreamHttpMethod": [ "GET" ]
     },
     {
-      "DownstreamPathTemplate": "/api/users/getuserbyemail",
+      "DownstreamPathTemplate": "/api/users/getuserbyguid",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -48,7 +48,7 @@
           "Port": 5001
         }
       ],
-      "UpstreamPathTemplate": "/gateway/users/getuserbyemail",
+      "UpstreamPathTemplate": "/gateway/users/getuserbyguid",
       "UpstreamHttpMethod": [ "POST" ]
     },
     {
@@ -76,7 +76,7 @@
       "UpstreamHttpMethod": [ "POST" ]
     },
     {
-      "DownstreamPathTemplate": "/api/recipes/getrecipe/{id}",
+      "DownstreamPathTemplate": "/api/recipes/getrecipe",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -84,8 +84,20 @@
           "Port": 5002
         }
       ],
-      "UpstreamPathTemplate": "/gateway/recipes/getrecipe/{id}",
-      "UpstreamHttpMethod": [ "GET" ]
+      "UpstreamPathTemplate": "/gateway/recipes/getrecipe",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/recipes/likerecipe",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/recipes/likerecipe",
+      "UpstreamHttpMethod": [ "POST" ]
     }
   ]
 }

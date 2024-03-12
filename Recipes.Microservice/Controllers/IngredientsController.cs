@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Recipes.Microservice.Common.Models.DTOs;
-using Recipes.Microservice.Queries.Ingredient.GetIngredients;
+using Recipes.Microservice.Queries.Ingredients.GetIngredients;
 
 namespace Recipes.Microservice.Controllers;
 

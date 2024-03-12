@@ -10,6 +10,13 @@ public class UserRepository : Repository<User>, IUserRepository
     {
     }
 
+    public Task<User?> GetByGuidAsync(Guid guid, CancellationToken cancellationToken)
+    {
+        return ApplicationDbContext.Users
+            .Where(user => user.Guid == guid)
+            .FirstOrDefaultAsync(cancellationToken: cancellationToken);
+    }
+
     public Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken)
     {
         return ApplicationDbContext.Users

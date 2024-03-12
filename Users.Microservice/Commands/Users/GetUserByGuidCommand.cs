@@ -3,7 +3,7 @@ using Users.Microservice.Common.Models.DTOs;
 
 namespace Users.Microservice.Commands.Users;
 
-public class GetUserByEmailCommand : IRequest<UserDataDto>
+public class GetUserByGuidCommand : IRequest<UserDataDto>
 {
-    public string Email { get; set; }
+    public Guid Guid { get; set; }
 }

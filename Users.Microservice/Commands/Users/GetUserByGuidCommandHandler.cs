@@ -5,7 +5,7 @@ using Users.Microservice.Domain.Interfaces;
 
 namespace Users.Microservice.Commands.Users;
 
-public class GetUserByEmailCommandHandler : IRequestHandler<GetUserByEmailCommand, UserDataDto>
+public class GetUserByGuidCommandHandler : IRequestHandler<GetUserByGuidCommand, UserDataDto>
 {
     #region Properties
 
@@ -16,7 +16,7 @@ public class GetUserByEmailCommandHandler : IRequestHandler<GetUserByEmailComman
 
     #region Constructors
 
-    public GetUserByEmailCommandHandler(IUserRepository repository, ILoggerService logger)
+    public GetUserByGuidCommandHandler(IUserRepository repository, ILoggerService logger)
     {
         _repository = repository;
         _logger = logger;
@@ -26,12 +26,12 @@ public class GetUserByEmailCommandHandler : IRequestHandler<GetUserByEmailComman
 
     #region Methods
 
-    public async Task<UserDataDto> Handle(GetUserByEmailCommand request, CancellationToken cancellationToken)
+    public async Task<UserDataDto> Handle(GetUserByGuidCommand request, CancellationToken cancellationToken)
     {
         var result = new UserDataDto();
         try
         {
-            var userInDb =  await _repository.GetByEmailAsync(request.Email, cancellationToken);
+            var userInDb =  await _repository.GetByGuidAsync(request.Guid, cancellationToken);
             if (userInDb != null)
             {
                 result.Email = userInDb.Email;

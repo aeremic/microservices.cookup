@@ -51,7 +51,8 @@ public class JwtHandler : IJwtHandler
         var claims = new List<Claim>
         {
             new(ClaimTypes.Email, user.Email),
-            new(ClaimTypes.Role, user.Role.ToString())
+            new(ClaimTypes.Role, user.Role.ToString()),
+            new(Constants.CustomClaimTypes.UserGuid, user.Guid.ToString())
         };
 
         return claims;

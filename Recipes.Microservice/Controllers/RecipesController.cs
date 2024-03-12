@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Recipes.Microservice.Common.Models;
+using Recipes.Microservice.Commands.Recipes.LikeRecipe;
 using Recipes.Microservice.Common.Models.DTOs;
 using Recipes.Microservice.Queries.Recipes.GetRecipe;
 using Recipes.Microservice.Queries.Recipes.GetRecommendedRecipes;
@@ -37,10 +37,17 @@ public class RecipesController : ControllerBase
         return await _sender.Send(request);
     }
 
-    [HttpGet("[action]/{id}")]
-    public async Task<ActionResult<RecipeDto>> GetRecipe(long id)
+    [HttpPost("[action]")]
+    public async Task<ActionResult<GetRecipeDto>> GetRecipe([FromBody] GetRecipeQuery request)
     {
-        return await _sender.Send(new GetRecipeQuery { Id = id });
+        return await _sender.Send(request);
+    }
+    
+    [HttpPost("[action]")]
+    public async Task<ActionResult<bool>> LikeRecipe(
+        [FromBody] LikeRecipeCommand likeRecipeCommand)
+    {
+        return await _sender.Send(likeRecipeCommand);
     }
 
     #endregion

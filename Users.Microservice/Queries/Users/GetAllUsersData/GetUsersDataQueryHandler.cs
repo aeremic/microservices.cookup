@@ -4,7 +4,7 @@ using Users.Microservice.Common.Interfaces;
 using Users.Microservice.Common.Models.DTOs;
 using Users.Microservice.Domain.Interfaces;
 
-namespace Users.Microservice.Queries.User.GetAllUsersData;
+namespace Users.Microservice.Queries.Users.GetAllUsersData;
 
 public class GetUsersDataQueryHandler : IRequestHandler<GetUsersDataQuery, List<UserDataDto>>
 {

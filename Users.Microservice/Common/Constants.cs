@@ -45,4 +45,9 @@ public static class Constants
         Added,
         Updated,
     }
+
+    public static class CustomClaimTypes
+    {
+        public const string UserGuid = "identity/claims/userguid";
+    }
 }

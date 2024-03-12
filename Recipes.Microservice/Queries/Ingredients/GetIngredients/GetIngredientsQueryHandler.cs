@@ -4,7 +4,7 @@ using NLog;
 using Recipes.Microservice.Common.Models.DTOs;
 using Recipes.Microservice.Domain.Interfaces;
 
-namespace Recipes.Microservice.Queries.Ingredient.GetIngredients;
+namespace Recipes.Microservice.Queries.Ingredients.GetIngredients;
 
 public class GetIngredientsQueryHandler : IRequestHandler<GetIngredientsQuery, List<IngredientDto>>
 {

@@ -2,10 +2,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Users.Microservice.Commands.Users;
-using Users.Microservice.Common.Models;
 using Users.Microservice.Common.Models.DTOs;
-using Users.Microservice.Queries.User.GetAllUsersData;
-using Users.Microservice.Queries.User.GetUserData;
+using Users.Microservice.Queries.Users.GetAllUsersData;
+using Users.Microservice.Queries.Users.GetUserData;
 
 namespace Users.Microservice.Controllers;
 
@@ -55,17 +54,17 @@ public class UsersController : ControllerBase
     /// <summary>
     /// Method for retrieving users data by email.
     /// </summary>
-    /// <param name="getUserByEmailCommand"></param>
+    /// <param name="getUserByGuidCommand"></param>
     /// <returns>User data.</returns>
     [HttpPost("[action]")]
-    public async Task<ActionResult<UserDataDto>> GetUserByEmail([FromBody] GetUserByEmailCommand? getUserByEmailCommand)
+    public async Task<ActionResult<UserDataDto>> GetUserByGuid([FromBody] GetUserByGuidCommand? getUserByGuidCommand)
     {
-        if (getUserByEmailCommand == null)
+        if (getUserByGuidCommand == null)
         {
             return BadRequest();
         }
 
-        return await _sender.Send(getUserByEmailCommand);
+        return await _sender.Send(getUserByGuidCommand);
     }
 
     #endregion
