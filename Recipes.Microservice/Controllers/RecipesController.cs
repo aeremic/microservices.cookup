@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Recipes.Microservice.Commands.Recipes.LikeRecipe;
 using Recipes.Microservice.Common.Models.DTOs;
+using Recipes.Microservice.Queries.Recipes.GetLikedRecipes;
 using Recipes.Microservice.Queries.Recipes.GetRecipe;
 using Recipes.Microservice.Queries.Recipes.GetRecommendedRecipes;
 
@@ -48,6 +49,13 @@ public class RecipesController : ControllerBase
         [FromBody] LikeRecipeCommand likeRecipeCommand)
     {
         return await _sender.Send(likeRecipeCommand);
+    }
+    
+    [HttpPost("[action]")]
+    public async Task<ActionResult<List<GetLikedRecipeDto>>> GetLikedRecipes(
+        [FromBody] GetLikedRecipesQuery getLikedRecipesCommand)
+    {
+        return await _sender.Send(getLikedRecipesCommand);
     }
 
     #endregion

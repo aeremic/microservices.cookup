@@ -8,4 +8,6 @@ public interface IRecipeRepository
 
     public Task<List<Recipe>> GetRecipesContainingIngredients(List<long> ingredientIds,
         CancellationToken cancellationToken);
+
+    public Task<List<Recipe>> GetRecipesWithUserRecipesByUserIdAsync(long userId, CancellationToken cancellationToken);
 }

@@ -27,4 +27,15 @@ public class RecipeRepository : Repository<Recipe>, IRecipeRepository
                 recipe.Ingredients!.Any(ingredient => ingredientIds.Contains(ingredient.Id)))
             .ToListAsync(cancellationToken);
     }
+
+    public async Task<List<Recipe>> GetRecipesWithUserRecipesByUserIdAsync(long userId,
+        CancellationToken cancellationToken)
+    {
+        var query = from recipe in ApplicationDbContext.Recipes
+            join userRecipe in ApplicationDbContext.UserRecipes on recipe.Id equals userRecipe.RecipeId
+            where userRecipe.UserId == userId
+            select recipe;
+
+        return await query.ToListAsync(cancellationToken);
+    }
 }

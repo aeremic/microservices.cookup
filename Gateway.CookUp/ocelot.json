@@ -98,6 +98,18 @@
       ],
       "UpstreamPathTemplate": "/gateway/recipes/likerecipe",
       "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/recipes/getlikedrecipes",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/recipes/getlikedrecipes",
+      "UpstreamHttpMethod": [ "POST" ]
     }
   ]
 }
