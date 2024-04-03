@@ -10,4 +10,16 @@ public static class Constants
         public static readonly string ValidAudience = "ValidAudience";
         public static readonly string ExpiryInMinutes = "ExpiryInMinutes";
     }
+
+    public static class HostingAddressConfigurationSectionKeys
+    {
+        public static readonly string HostingAddress = "HostingAddress";
+        public static readonly string Value = "Value";
+    }
+
+    public enum UserChangeTypes : int
+    {
+        Added,
+        Updated,
+    }
 }

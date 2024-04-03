@@ -10,15 +10,15 @@ public class AuthController : ControllerBase
 {
     #region Properties
 
-    private readonly IMediator _mediator;
+    private readonly ISender _sender;
     
     #endregion
     
     #region  Constructors
 
-    public AuthController(IMediator mediator)
+    public AuthController(ISender sender)
     {
-        _mediator = mediator;
+        _sender = sender;
     }
 
     #endregion
@@ -38,7 +38,7 @@ public class AuthController : ControllerBase
             return BadRequest();
         }
         
-        return await _mediator.Send(externalLoginCommand);
+        return await _sender.Send(externalLoginCommand);
     }
     
     #endregion

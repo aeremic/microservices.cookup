@@ -11,7 +11,7 @@ using Recipes.Microservice.Infrastructure;
 
 namespace Recipes.Microservice.Migrations
 {
-    [DbContext(typeof(Repository))]
+    [DbContext(typeof(ApplicationDbContext))]
     [Migration("20231210160103_init")]
     partial class init
     {

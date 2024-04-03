@@ -1,11 +1,10 @@
-﻿using Google.Apis.Auth;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
-using NLog;
+﻿using MediatR;
+using Queuing.Interfaces;
 using Users.Microservice.Common;
-using Users.Microservice.Domains;
-using Users.Microservice.Infrastructure;
-using Users.Microservice.Services;
+using Users.Microservice.Common.Interfaces;
+using Users.Microservice.Domain.Interfaces;
+using Users.Microservice.Domain.Models;
+using Users.Microservice.Queueing.Models;
 
 namespace Users.Microservice.Commands.Auth.ExternalLogin;
 
@@ -14,20 +13,28 @@ public class ExternalLoginCommandHandler : IRequestHandler<ExternalLoginCommand,
     #region Properties
 
     private readonly IConfigurationSection _googleAuthConfigurationSection;
-    private readonly Repository _repository;
-    private readonly JwtHandler _jwtHandler;
-    private readonly Logger _logger;
+    private readonly IUserRepository _repository;
+    private readonly IOAuthProxy _oAuthProxy;
+    private readonly IJwtHandler _jwtHandler;
+    private readonly IQueueProducer<UserChangeQueueMessage> _queueProducer;
+    private readonly ILoggerService _logger;
 
     #endregion
 
     #region Constructors
 
-    public ExternalLoginCommandHandler(IConfiguration configuration, Repository repository, JwtHandler jwtHandler)
+    public ExternalLoginCommandHandler(IConfiguration configuration, IUserRepository repository, IJwtHandler jwtHandler,
+        IOAuthProxy oAuthProxy, IQueueProducer<UserChangeQueueMessage> queueProducer, ILoggerService logger)
     {
-        _googleAuthConfigurationSection = configuration.GetSection(Constants.AuthConfigurationSectionKeys.AuthenticationGoogle);
+        _googleAuthConfigurationSection =
+            configuration.GetSection(Constants.AuthConfigurationSectionKeys.AuthenticationGoogle);
+        
         _repository = repository;
+        _oAuthProxy = oAuthProxy;
         _jwtHandler = jwtHandler;
-        _logger = LogManager.GetCurrentClassLogger();
+        _queueProducer = queueProducer;
+
+        _logger = logger;
     }
 
     #endregion
@@ -37,46 +44,77 @@ public class ExternalLoginCommandHandler : IRequestHandler<ExternalLoginCommand,
     public async Task<ExternalLoginDto> Handle(ExternalLoginCommand request, CancellationToken cancellationToken)
     {
         var result = new ExternalLoginDto();
-        if(string.IsNullOrEmpty(request.IdToken) || string.IsNullOrEmpty(request.Email))
+        if (string.IsNullOrEmpty(request.AuthorizationCode))
         {
             return result;
         }
 
         try
         {
-            var settings = new GoogleJsonWebSignature.ValidationSettings()
-            {
-                Audience = new List<string>()
-                {
-                    _googleAuthConfigurationSection.GetSection(Constants.AuthConfigurationSectionKeys.ClientId).Value ?? string.Empty
-                }
-            };
+            var accessCodeDto = await _oAuthProxy.ProcessGetAccessCodeAsync(
+                _googleAuthConfigurationSection.GetSection(Constants.AuthConfigurationSectionKeys.AccountsBaseUrl)
+                    .Value ?? string.Empty,
+                _googleAuthConfigurationSection.GetSection(Constants.AuthConfigurationSectionKeys.TokenEndpoint)
+                    .Value ?? string.Empty,
+                _googleAuthConfigurationSection.GetSection(Constants.AuthConfigurationSectionKeys.ClientId)
+                    .Value ?? string.Empty,
+                _googleAuthConfigurationSection.GetSection(Constants.AuthConfigurationSectionKeys.ClientSecret)
+                    .Value ?? string.Empty,
+                _googleAuthConfigurationSection.GetSection(Constants.AuthConfigurationSectionKeys.RedirectUri)
+                    .Value ?? string.Empty,
+                request.AuthorizationCode);
 
-            var payload = await GoogleJsonWebSignature.ValidateAsync(request.IdToken, settings);
-            if (payload == null)
+            if (accessCodeDto == null || string.IsNullOrEmpty(accessCodeDto.AccessToken))
             {
                 return result;
             }
-            result.Provider = request.Provider;
 
-            var userInDb = await _repository.Users
-                .Where(user => user.Email == payload.Email)
-                .FirstOrDefaultAsync(cancellationToken: cancellationToken);
+            var userInfo = await _oAuthProxy.ProcessGetUserInfoAsync(_googleAuthConfigurationSection
+                    .GetSection(Constants.AuthConfigurationSectionKeys.GoogleApisBaseUrl)
+                    .Value ?? string.Empty,
+                _googleAuthConfigurationSection.GetSection(Constants.AuthConfigurationSectionKeys.UserInfoEndpoint)
+                    .Value ?? string.Empty,
+                accessCodeDto.AccessToken);
+
+            if (userInfo?.Email == null)
+            {
+                return result;
+            }
+
+            var userInDb = await _repository.GetByEmailAsync(userInfo.Email, cancellationToken);
 
             User? user;
             if (userInDb != null)
             {
                 user = userInDb;
+
+                user.Username = userInfo.Name;
+                user.ImageFullPath = userInfo.Picture?.ToString();
+
+                await _repository.UpdateAsync(user, cancellationToken);
             }
             else
             {
                 user = new User
                 {
-                    Email = payload.Email,
-                    Role = (int) Constants.Role.Regular
+                    Guid = Guid.NewGuid(),
+                    Email = userInfo.Email!,
+                    Username = userInfo.Name,
+                    ImageFullPath = userInfo.Picture?.ToString(),
+                    Role = (int)Constants.Role.Regular
                 };
+
                 await _repository.AddAsync(user, cancellationToken);
-                
+
+                _queueProducer.PublishMessage(new UserChangeQueueMessage
+                {
+                    UserGuid = user.Guid,
+                    Username = user.Username,
+                    ImageFullPath = user.ImageFullPath,
+                    ChangeType = (int)Constants.UserChangeTypes.Added,
+                    TimeToLive = TimeSpan.FromDays(1),
+                });
+
                 result.IsNewUser = true;
             }
 

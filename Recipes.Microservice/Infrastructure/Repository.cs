@@ -1,37 +1,45 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Recipes.Microservice.Domains;
+using Recipes.Microservice.Domain.Models;
 
 namespace Recipes.Microservice.Infrastructure;
 
-public class Repository : DbContext
+public abstract class Repository<TEntity> where TEntity : Entity
 {
-    #region Constructors
+    protected readonly ApplicationDbContext ApplicationDbContext;
 
-    public Repository(DbContextOptions options) : base(options)
+    protected Repository(ApplicationDbContext applicationDbContext)
     {
+        ApplicationDbContext = applicationDbContext;
     }
 
-    #endregion
-
-    #region Entities
-
-    public required DbSet<Recipe> Recipes { get; set; }
-    
-    public required DbSet<Ingredient> Ingredients { get; set; }
-    
-    #endregion
-
-    #region Configuration
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    public Task AddAsync(TEntity entity, CancellationToken cancellationToken)
     {
-        // Configuration setup
+        ApplicationDbContext.Set<TEntity>().Add(entity);
+        
+        return Task.FromResult(ApplicationDbContext.SaveChangesAsync(cancellationToken));
     }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    public Task UpdateAsync(TEntity entity, CancellationToken cancellationToken)
     {
-        // Foreign keys setup
+        ApplicationDbContext.Set<TEntity>().Update(entity);
+        
+        return Task.FromResult(ApplicationDbContext.SaveChangesAsync(cancellationToken));
     }
 
-    #endregion
+    public Task RemoveAsync(TEntity entity, CancellationToken cancellationToken)
+    {
+        ApplicationDbContext.Set<TEntity>().Remove(entity);
+        
+        return Task.FromResult(ApplicationDbContext.SaveChangesAsync(cancellationToken));
+    }
+
+    public Task<TEntity?> GetAsync(long id, CancellationToken cancellationToken)
+    {
+        return ApplicationDbContext.Set<TEntity>().Where(e => e.Id == id).FirstOrDefaultAsync(cancellationToken);
+    }
+
+    public Task<List<TEntity>> GetAsync(CancellationToken cancellationToken)
+    {
+        return ApplicationDbContext.Set<TEntity>().ToListAsync(cancellationToken);
+    }
 }

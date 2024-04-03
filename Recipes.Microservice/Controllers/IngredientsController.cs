@@ -1,26 +1,27 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Recipes.Microservice.Common.Models;
-using Recipes.Microservice.Queries.Ingredient.GetIngredients;
+using Recipes.Microservice.Common.Models.DTOs;
+using Recipes.Microservice.Queries.Ingredients.GetIngredients;
 
 namespace Recipes.Microservice.Controllers;
 
 [Route("api/[controller]")]
-// [Authorize]
+[Authorize]
 [ApiController]
 public class IngredientsController : ControllerBase
 {
     #region Properties
 
-    private readonly IMediator _mediator;
+    private readonly ISender _sender;
 
     #endregion
 
     #region Constructors
 
-    public IngredientsController(IMediator mediator)
+    public IngredientsController(ISender sender)
     {
-        _mediator = mediator;
+        _sender = sender;
     }
 
     #endregion
@@ -30,7 +31,7 @@ public class IngredientsController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<List<IngredientDto>>> GetIngredients()
     {
-        return await _mediator.Send(new GetIngredientsQuery());
+        return await _sender.Send(new GetIngredientsQuery());
     }
 
     #endregion

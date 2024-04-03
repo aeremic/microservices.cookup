@@ -1,0 +1,13 @@
+C:\Users\Andrija\microservices.cookup\Queuing\obj\Debug\net6.0\Queuing.csproj.AssemblyReference.cache
+C:\Users\Andrija\microservices.cookup\Queuing\obj\Debug\net6.0\Queuing.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Andrija\microservices.cookup\Queuing\obj\Debug\net6.0\Queuing.AssemblyInfoInputs.cache
+C:\Users\Andrija\microservices.cookup\Queuing\obj\Debug\net6.0\Queuing.AssemblyInfo.cs
+C:\Users\Andrija\microservices.cookup\Queuing\obj\Debug\net6.0\Queuing.csproj.CoreCompileInputs.cache
+C:\Users\Andrija\microservices.cookup\Queuing\obj\Debug\net6.0\Queuing.sourcelink.json
+C:\Users\Andrija\microservices.cookup\Queuing\bin\Debug\net6.0\Queuing.deps.json
+C:\Users\Andrija\microservices.cookup\Queuing\bin\Debug\net6.0\Queuing.dll
+C:\Users\Andrija\microservices.cookup\Queuing\bin\Debug\net6.0\Queuing.pdb
+C:\Users\Andrija\microservices.cookup\Queuing\obj\Debug\net6.0\Queuing.dll
+C:\Users\Andrija\microservices.cookup\Queuing\obj\Debug\net6.0\refint\Queuing.dll
+C:\Users\Andrija\microservices.cookup\Queuing\obj\Debug\net6.0\Queuing.pdb
+C:\Users\Andrija\microservices.cookup\Queuing\obj\Debug\net6.0\ref\Queuing.dll

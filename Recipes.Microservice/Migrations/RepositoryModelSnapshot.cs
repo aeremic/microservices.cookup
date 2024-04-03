@@ -10,7 +10,7 @@ using Recipes.Microservice.Infrastructure;
 
 namespace Recipes.Microservice.Migrations
 {
-    [DbContext(typeof(Repository))]
+    [DbContext(typeof(ApplicationDbContext))]
     partial class RepositoryModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
@@ -37,7 +37,37 @@ namespace Recipes.Microservice.Migrations
                     b.ToTable("IngredientRecipe");
                 });
 
-            modelBuilder.Entity("Recipes.Microservice.Domains.Ingredient", b =>
+            modelBuilder.Entity("Recipes.Microservice.Domain.Models.Comment", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("integer");
+
+                    b.Property<long>("RecipeId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RecipeId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Comments");
+                });
+
+            modelBuilder.Entity("Recipes.Microservice.Domain.Models.Ingredient", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -53,13 +83,19 @@ namespace Recipes.Microservice.Migrations
                     b.ToTable("Ingredients");
                 });
 
-            modelBuilder.Entity("Recipes.Microservice.Domains.Recipe", b =>
+            modelBuilder.Entity("Recipes.Microservice.Domain.Models.Recipe", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<int?>("Calories")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("Complexity")
+                        .HasColumnType("integer");
 
                     b.Property<long?>("CreatedBy")
                         .HasColumnType("bigint");
@@ -79,24 +115,125 @@ namespace Recipes.Microservice.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
+                    b.Property<int?>("PlateQuantity")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("ThumbnailPath")
+                        .HasColumnType("text");
+
+                    b.Property<TimeSpan?>("TimeNeeded")
+                        .HasColumnType("interval");
+
                     b.HasKey("Id");
 
                     b.ToTable("Recipes");
                 });
 
+            modelBuilder.Entity("Recipes.Microservice.Domain.Models.User", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<Guid>("Guid")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ImageFullPath")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Username")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Recipes.Microservice.Domain.Models.UserRecipe", b =>
+                {
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("RecipeId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("Id")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("UserId", "RecipeId");
+
+                    b.HasIndex("RecipeId");
+
+                    b.ToTable("UserRecipes");
+                });
+
             modelBuilder.Entity("IngredientRecipe", b =>
                 {
-                    b.HasOne("Recipes.Microservice.Domains.Ingredient", null)
+                    b.HasOne("Recipes.Microservice.Domain.Models.Ingredient", null)
                         .WithMany()
                         .HasForeignKey("IngredientsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Recipes.Microservice.Domains.Recipe", null)
+                    b.HasOne("Recipes.Microservice.Domain.Models.Recipe", null)
                         .WithMany()
                         .HasForeignKey("RecipesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Recipes.Microservice.Domain.Models.Comment", b =>
+                {
+                    b.HasOne("Recipes.Microservice.Domain.Models.Recipe", "Recipe")
+                        .WithMany("Comments")
+                        .HasForeignKey("RecipeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Recipes.Microservice.Domain.Models.User", "User")
+                        .WithMany("Comments")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Recipe");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Recipes.Microservice.Domain.Models.UserRecipe", b =>
+                {
+                    b.HasOne("Recipes.Microservice.Domain.Models.Recipe", "Recipe")
+                        .WithMany("UserRecipes")
+                        .HasForeignKey("RecipeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Recipes.Microservice.Domain.Models.User", "User")
+                        .WithMany("UserRecipes")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Recipe");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Recipes.Microservice.Domain.Models.Recipe", b =>
+                {
+                    b.Navigation("Comments");
+
+                    b.Navigation("UserRecipes");
+                });
+
+            modelBuilder.Entity("Recipes.Microservice.Domain.Models.User", b =>
+                {
+                    b.Navigation("Comments");
+
+                    b.Navigation("UserRecipes");
                 });
 #pragma warning restore 612, 618
         }

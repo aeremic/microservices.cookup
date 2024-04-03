@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
 using Users.Microservice.Common.Models;
-using Users.Microservice.Domains;
-using Users.Microservice.Queries.User.GetAllUsersData;
-using Users.Microservice.Queries.User.GetUserData;
+using Users.Microservice.Common.Models.DTOs;
+using Users.Microservice.Domain.Models;
 
 namespace Users.Microservice.Mappers;
 

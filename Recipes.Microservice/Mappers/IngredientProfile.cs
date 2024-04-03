@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
-using Recipes.Microservice.Common.Models;
-using Recipes.Microservice.Domains;
+using Recipes.Microservice.Common.Models.DTOs;
+using Recipes.Microservice.Domain;
+using Recipes.Microservice.Domain.Models;
 
 namespace Recipes.Microservice.Mappers;
 
