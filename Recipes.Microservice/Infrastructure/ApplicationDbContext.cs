@@ -23,6 +23,8 @@ public class ApplicationDbContext : DbContext
     public DbSet<User> Users { get; set; }
     
     public DbSet<UserRecipe> UserRecipes { get; set; }
+    
+    public DbSet<Comment> Comments { get; set; }
 
     #endregion
 
@@ -45,6 +47,16 @@ public class ApplicationDbContext : DbContext
         modelBuilder.Entity<UserRecipe>()
             .HasOne(ur => ur.Recipe)
             .WithMany(r => r.UserRecipes)
+            .HasForeignKey(ur => ur.RecipeId);
+        
+        modelBuilder.Entity<Comment>()
+            .HasOne(ur => ur.User)
+            .WithMany(u => u.Comments)
+            .HasForeignKey(ur => ur.UserId);
+
+        modelBuilder.Entity<Comment>()
+            .HasOne(ur => ur.Recipe)
+            .WithMany(r => r.Comments)
             .HasForeignKey(ur => ur.RecipeId);
     }
 

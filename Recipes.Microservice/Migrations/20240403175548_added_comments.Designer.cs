@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Recipes.Microservice.Infrastructure;
@@ -11,9 +12,11 @@ using Recipes.Microservice.Infrastructure;
 namespace Recipes.Microservice.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class RepositoryModelSnapshot : ModelSnapshot
+    [Migration("20240403175548_added_comments")]
+    partial class added_comments
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,9 +51,6 @@ namespace Recipes.Microservice.Migrations
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<int>("Rating")
-                        .HasColumnType("integer");
 
                     b.Property<long>("RecipeId")
                         .HasColumnType("bigint");

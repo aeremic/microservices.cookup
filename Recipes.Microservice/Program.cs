@@ -51,6 +51,7 @@ try
     builder.Services.AddScoped<IIngredientRepository, IngredientRepository>();
     builder.Services.AddScoped<IUserRepository, UserRepository>();
     builder.Services.AddScoped<IUserRecipesRepository, UserRecipesRepository>();
+    builder.Services.AddScoped<ICommentRepository, CommentRepository>();
     
     builder.Services.AddScoped<ILoggerService, LoggerService>();
     builder.Services.AddScoped<IFileService, FileService>();

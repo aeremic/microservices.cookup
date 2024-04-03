@@ -16,4 +16,5 @@ public class Recipe : Entity
     
     public virtual ICollection<Ingredient>? Ingredients { get; set; }
     public virtual ICollection<UserRecipe>? UserRecipes { get; set; }
+    public virtual ICollection<Comment>? Comments { get; set; }
 }
