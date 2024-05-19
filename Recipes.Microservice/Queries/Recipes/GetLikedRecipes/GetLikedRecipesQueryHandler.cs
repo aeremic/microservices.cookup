@@ -39,7 +39,7 @@ public class GetLikedRecipesQueryHandler : IRequestHandler<GetLikedRecipesQuery,
         var result = new List<GetLikedRecipeDto>();
         try
         {
-            var userInDb = await _userRepository.GetByGuidAsync(request.UserGuid, cancellationToken);
+            var userInDb = await _userRepository.GetIdByGuidAsync(request.UserGuid, cancellationToken);
             if (userInDb != null)
             {
                 var likedRecipes =

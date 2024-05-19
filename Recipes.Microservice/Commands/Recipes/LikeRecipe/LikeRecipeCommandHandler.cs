@@ -33,7 +33,7 @@ public class LikeRecipeCommandHandler : IRequestHandler<LikeRecipeCommand, bool>
         var result = false;
         try
         {
-            var userInDb = await _userRepository.GetByGuidAsync(request.UserGuid, cancellationToken);
+            var userInDb = await _userRepository.GetIdByGuidAsync(request.UserGuid, cancellationToken);
             if (userInDb != null)
             {
                 var userRecipeInDb = await _userRecipesRepository.GetAsync(userInDb.Id, request.RecipeId, cancellationToken);

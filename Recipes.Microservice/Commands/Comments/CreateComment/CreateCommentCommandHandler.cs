@@ -35,7 +35,7 @@ public class CreateCommentCommandHandler : IRequestHandler<CreateCommentCommand,
 
         try
         {
-            var userInDb = await _userRepository.GetByGuidAsync(request.UserGuid, cancellationToken);
+            var userInDb = await _userRepository.GetIdByGuidAsync(request.UserGuid, cancellationToken);
             if (userInDb != null)
             {
                 await _commentRepository.AddAsync(new Comment
@@ -43,7 +43,8 @@ public class CreateCommentCommandHandler : IRequestHandler<CreateCommentCommand,
                     UserId = userInDb.Id,
                     RecipeId = request.RecipeId,
                     Content = request.Content,
-                    Rating =request.Rating
+                    Rating = request.Rating,
+                    CreatedOn = DateTime.UtcNow
                 }, cancellationToken);
 
                 result = true;

@@ -58,7 +58,7 @@ public class GetRecipeQueryHandler : IRequestHandler<GetRecipeQuery, GetRecipeDt
                     result.ThumbnailPath = _fileService.FormFileUrl(result.ThumbnailPath ?? string.Empty);
                 }
 
-                var userInDb = await _userRepository.GetByGuidAsync(request.UserGuid, cancellationToken);
+                var userInDb = await _userRepository.GetIdByGuidAsync(request.UserGuid, cancellationToken);
                 if (userInDb != null)
                 {
                     result.IsRecipeLiked =

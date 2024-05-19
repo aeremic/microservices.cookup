@@ -37,7 +37,9 @@ public class GetCommentsQueryHandler : IRequestHandler<GetCommentsQuery, List<Co
         {
             var commentsInDb = await _commentRepository.GetByRecipeIdAsync(request.RecipeId, cancellationToken);
 
-            result = _mapper.Map<List<CommentDto>>(commentsInDb);
+            result = _mapper.Map<List<CommentDto>>(commentsInDb)
+                .OrderBy(c => c.CreatedOn)
+                .ToList();
         }
         catch (Exception ex)
         {

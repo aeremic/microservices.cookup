@@ -14,4 +14,18 @@ public class UserRepository : Repository<User>, IUserRepository
     {
         return ApplicationDbContext.Users.Where(user => user.Guid == guid).FirstOrDefaultAsync(cancellationToken);
     }
+
+    public Task<User?> GetIdByGuidAsync(Guid guid, CancellationToken cancellationToken)
+    {
+        return ApplicationDbContext.Users.Where(user => user.Guid == guid)
+            .Select(user => new
+            { 
+                user.Id
+            })
+            .Select(user => new User
+            {
+                Id = user.Id
+            })
+            .FirstOrDefaultAsync(cancellationToken);
+    }
 }
