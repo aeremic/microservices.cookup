@@ -10,6 +10,7 @@ public class CreateCommentCommandHandler : IRequestHandler<CreateCommentCommand,
     #region Properties
 
     private readonly ICommentRepository _commentRepository;
+    private readonly IRecipeRepository _recipeRepository;
     private readonly IUserRepository _userRepository;
     private readonly ILoggerService _logger;
 
@@ -17,10 +18,11 @@ public class CreateCommentCommandHandler : IRequestHandler<CreateCommentCommand,
 
     #region Constructors
 
-    public CreateCommentCommandHandler(ICommentRepository commentRepository, IUserRepository userRepository,
+    public CreateCommentCommandHandler(ICommentRepository commentRepository, IRecipeRepository recipeRepository, IUserRepository userRepository,
         ILoggerService logger)
     {
         _commentRepository = commentRepository;
+        _recipeRepository = recipeRepository;
         _userRepository = userRepository;
         _logger = logger;
     }
@@ -47,6 +49,14 @@ public class CreateCommentCommandHandler : IRequestHandler<CreateCommentCommand,
                     CreatedOn = DateTime.UtcNow
                 }, cancellationToken);
 
+                var sumOfComments = await _commentRepository.GetSumOfCommentRatingsByRecipeIdAsync(request.RecipeId, cancellationToken);
+                var numberOfComments = await _commentRepository.GetNumberOfCommentsByRecipeIdAsync(request.RecipeId, cancellationToken);
+
+                var recipe = await _recipeRepository.GetAsync(request.RecipeId, cancellationToken);
+                recipe.Rating = sumOfComments / numberOfComments;
+                
+                await _recipeRepository.UpdateAsync(recipe, cancellationToken);
+                
                 result = true;
             }
         }

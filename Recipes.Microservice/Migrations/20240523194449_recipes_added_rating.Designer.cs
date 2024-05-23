@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Recipes.Microservice.Infrastructure;
@@ -11,9 +12,11 @@ using Recipes.Microservice.Infrastructure;
 namespace Recipes.Microservice.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class RepositoryModelSnapshot : ModelSnapshot
+    [Migration("20240523194449_recipes_added_rating")]
+    partial class recipes_added_rating
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

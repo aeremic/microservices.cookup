@@ -10,4 +10,8 @@ public interface IRecipeRepository
         CancellationToken cancellationToken);
 
     public Task<List<Recipe>> GetRecipesWithUserRecipesByUserIdAsync(long userId, CancellationToken cancellationToken);
+    
+    public Task UpdateAsync(Recipe recipe, CancellationToken cancellationToken);
+
+    public Task<Recipe> GetAsync(long recipeId, CancellationToken cancellationToken);
 }

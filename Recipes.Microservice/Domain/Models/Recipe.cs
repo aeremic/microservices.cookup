@@ -10,6 +10,7 @@ public class Recipe : Entity
     public int? Calories { get; set; }
     public int? PlateQuantity { get; set; }
     public string? ThumbnailPath { get; set; }
+    public double? Rating { get; set; }
     public DateTime? CreatedOn { get; set; }
     public long? CreatedBy { get; set; }
     public bool IsUserCreated { get; set; }

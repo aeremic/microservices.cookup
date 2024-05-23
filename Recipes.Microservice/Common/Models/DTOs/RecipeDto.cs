@@ -14,6 +14,7 @@ public sealed class RecipeDto
     public int? Calories { get; set; }
     public int? PlateQuantity { get; set; }
     public string? ThumbnailPath { get; set; }
+    public double? Rating { get; set; }
     
     public ICollection<StepDto>? Steps { get; set; }
     public ICollection<IngredientDto>? Ingredients { get; set; }

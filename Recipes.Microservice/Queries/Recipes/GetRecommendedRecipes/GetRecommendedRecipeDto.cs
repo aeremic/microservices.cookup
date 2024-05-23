@@ -11,6 +11,7 @@ public class GetRecommendedRecipeDto
     public string? Name { get; set; }
     public string? Description { get; set; }
     public string? ThumbnailPath { get; set; }
+    public double? Rating { get; set; }
 
     public List<IngredientDto>? Ingredients { get; set; }
 }

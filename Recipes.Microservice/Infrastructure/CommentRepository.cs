@@ -16,4 +16,18 @@ public class CommentRepository : Repository<Comment>, ICommentRepository
             .Include(c => c.User)
             .ToListAsync(cancellationToken);
     }
+    
+    public Task<int> GetSumOfCommentRatingsByRecipeIdAsync(long recipeId, CancellationToken cancellationToken)
+    {
+        return ApplicationDbContext.Comments.Where(c => c.RecipeId == recipeId)
+            .Select(c => c.Rating)
+            .SumAsync(cancellationToken);
+    }
+    
+    public Task<int> GetNumberOfCommentsByRecipeIdAsync(long recipeId, CancellationToken cancellationToken)
+    {
+        return ApplicationDbContext.Comments.Where(c => c.RecipeId == recipeId)
+            .Select(c => c.Id)
+            .CountAsync(cancellationToken);
+    }
 }
