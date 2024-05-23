@@ -26,11 +26,11 @@ public abstract class Repository<TEntity> where TEntity : Entity
         await ApplicationDbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public Task RemoveAsync(TEntity entity, CancellationToken cancellationToken)
+    public async Task RemoveAsync(TEntity entity, CancellationToken cancellationToken)
     {
         ApplicationDbContext.Set<TEntity>().Remove(entity);
         
-        return Task.FromResult(ApplicationDbContext.SaveChangesAsync(cancellationToken));
+        await ApplicationDbContext.SaveChangesAsync(cancellationToken);
     }
 
     public Task<TEntity?> GetAsync(long id, CancellationToken cancellationToken)
