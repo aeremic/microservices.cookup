@@ -18,7 +18,8 @@ public class CreateCommentCommandHandler : IRequestHandler<CreateCommentCommand,
 
     #region Constructors
 
-    public CreateCommentCommandHandler(ICommentRepository commentRepository, IRecipeRepository recipeRepository, IUserRepository userRepository,
+    public CreateCommentCommandHandler(ICommentRepository commentRepository, IRecipeRepository recipeRepository,
+        IUserRepository userRepository,
         ILoggerService logger)
     {
         _commentRepository = commentRepository;
@@ -49,14 +50,10 @@ public class CreateCommentCommandHandler : IRequestHandler<CreateCommentCommand,
                     CreatedOn = DateTime.UtcNow
                 }, cancellationToken);
 
-                var sumOfComments = await _commentRepository.GetSumOfCommentRatingsByRecipeIdAsync(request.RecipeId, cancellationToken);
-                var numberOfComments = await _commentRepository.GetNumberOfCommentsByRecipeIdAsync(request.RecipeId, cancellationToken);
-
                 var recipe = await _recipeRepository.GetAsync(request.RecipeId, cancellationToken);
-                recipe.Rating = sumOfComments / numberOfComments;
-                
+                recipe.Rating = await CalculateRecipeRating(recipe.Id, cancellationToken);
                 await _recipeRepository.UpdateAsync(recipe, cancellationToken);
-                
+
                 result = true;
             }
         }
@@ -64,8 +61,18 @@ public class CreateCommentCommandHandler : IRequestHandler<CreateCommentCommand,
         {
             _logger.Error(ex);
         }
-        
+
         return result;
+    }
+
+    private async Task<double?> CalculateRecipeRating(long recipeId, CancellationToken cancellationToken)
+    {
+        var sumOfComments =
+            await _commentRepository.GetSumOfCommentRatingsByRecipeIdAsync(recipeId, cancellationToken);
+        var numberOfComments =
+            await _commentRepository.GetNumberOfCommentsByRecipeIdAsync(recipeId, cancellationToken);
+
+        return sumOfComments / numberOfComments;
     }
 
     #endregion
